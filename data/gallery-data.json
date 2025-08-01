@@ -1,0 +1,613 @@
+{
+  "images": [
+    {
+      "title": "1506-2",
+      "slug": "1506-2",
+      "description": "1506-2",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1749116180/portfolio-assets/h4tuwftuhxpconbseisz.png",
+      "isPremium": false,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1749116180/portfolio-assets/h4tuwftuhxpconbseisz.png",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748603988/portfolio-assets/k9teeawqjqntgpzjn08b.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1749116180/portfolio-assets/h4tuwftuhxpconbseisz.png"
+      ],
+      "videoUrl": "",
+      "galleryType": "public",
+      "tags": [
+        "1506tester"
+      ],
+      "createdAt": "2025-06-15T08:58:53.405Z",
+      "updatedAt": "2025-06-15T08:58:53.405Z",
+      "id": "item-1749977933405"
+    },
+    {
+      "title": "1506",
+      "slug": "1506",
+      "description": "1506 image media test",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+      "isPremium": false,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748519523/portfolio-assets/bmhj57ne8hxei2c5fybg.png",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "public",
+      "tags": [
+        "1506"
+      ],
+      "createdAt": "2025-06-15T08:41:16.500Z",
+      "updatedAt": "2025-06-15T08:41:16.500Z",
+      "id": "item-1749976876500"
+    },
+    {
+      "title": "test set",
+      "slug": "test-set",
+      "description": "test set",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+      "isPremium": false,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748603988/portfolio-assets/k9teeawqjqntgpzjn08b.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "public",
+      "tags": [
+        "test"
+      ],
+      "createdAt": "2025-06-13T09:50:15.697Z",
+      "updatedAt": "2025-06-13T09:50:15.697Z",
+      "id": "item-1749808215697"
+    },
+    {
+      "title": "1206 tester",
+      "slug": "1206-tester",
+      "description": "1206 tester",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+      "isPremium": false,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748603988/portfolio-assets/k9teeawqjqntgpzjn08b.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748774676/portfolio-assets/ostznzk03ij5vonrbeff.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "public",
+      "tags": [
+        "test"
+      ],
+      "createdAt": "2025-06-12T15:59:55.765Z",
+      "updatedAt": "2025-06-12T15:59:55.765Z",
+      "id": "item-1749743995765"
+    },
+    {
+      "title": "1106 galery image test",
+      "slug": "1106-galery-image-test",
+      "description": "1106 galery image test",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748603988/portfolio-assets/k9teeawqjqntgpzjn08b.jpg",
+      "isPremium": false,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748603988/portfolio-assets/k9teeawqjqntgpzjn08b.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748603988/portfolio-assets/k9teeawqjqntgpzjn08b.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "public",
+      "tags": [
+        "test"
+      ],
+      "createdAt": "2025-06-11T07:58:33.817Z",
+      "updatedAt": "2025-06-11T07:58:33.817Z",
+      "id": "item-1749628713817"
+    },
+    {
+      "title": "gallery 1006tester",
+      "slug": "gallery-1006tester",
+      "description": "gallery 1006tester",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+      "isPremium": false,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748603988/portfolio-assets/k9teeawqjqntgpzjn08b.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "public",
+      "tags": [
+        "tester"
+      ],
+      "createdAt": "2025-06-10T07:23:37.070Z",
+      "updatedAt": "2025-06-10T07:23:37.070Z",
+      "id": "item-1749540217070"
+    },
+    {
+      "title": "0906 test",
+      "slug": "0906-test",
+      "description": "0906 test0906 test",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748783974/portfolio-assets/c2sq9aws9q4bfqp1k2yk.jpg",
+      "isPremium": true,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748783974/portfolio-assets/c2sq9aws9q4bfqp1k2yk.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1749017128/portfolio-assets/dvfttfgqxswzcmtwhiwu.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "behind-scenes",
+      "tags": [
+        "behind0906"
+      ],
+      "createdAt": "2025-06-09T11:54:29.163Z",
+      "updatedAt": "2025-06-09T11:54:29.163Z",
+      "id": "item-1749470069163"
+    },
+    {
+      "title": "08 06 exclusive image set",
+      "slug": "08-06-exclusive-image-set",
+      "description": "08 06 exclusive image set",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748944777/portfolio-assets/be3kfqjbfwuvdarpwkn4.png",
+      "isPremium": true,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748944777/portfolio-assets/be3kfqjbfwuvdarpwkn4.png",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748967797/portfolio-assets/jsnqipvn0qspbsk3yzsg.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "exclusive",
+      "tags": [
+        "Gallery test 2"
+      ],
+      "createdAt": "2025-06-08T06:55:49.088Z",
+      "updatedAt": "2025-06-08T06:55:49.089Z",
+      "id": "item-1749365749088"
+    },
+    {
+      "title": "Gallery test 2",
+      "slug": "gallery-test-2",
+      "description": "Gallery test 2",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748519523/portfolio-assets/bmhj57ne8hxei2c5fybg.png",
+      "isPremium": false,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748519523/portfolio-assets/bmhj57ne8hxei2c5fybg.png",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "public",
+      "tags": [
+        "Gallery test 2"
+      ],
+      "createdAt": "2025-06-07T08:33:02.642Z",
+      "updatedAt": "2025-06-07T08:33:02.642Z",
+      "id": "item-1749285182642"
+    },
+    {
+      "title": "Exclusive 2",
+      "slug": "exclusive-2-1",
+      "description": "Exclusive 2",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/b24cc4ux8vxm9socheds.jpg",
+      "isPremium": true,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/b24cc4ux8vxm9socheds.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1749116180/portfolio-assets/h4tuwftuhxpconbseisz.png",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/b24cc4ux8vxm9socheds.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "exclusive",
+      "tags": [
+        "Exclusive 2"
+      ],
+      "createdAt": "2025-06-07T08:31:42.983Z",
+      "updatedAt": "2025-06-07T08:31:42.983Z",
+      "id": "item-1749285102983"
+    },
+    {
+      "title": "Exclusive 2",
+      "slug": "exclusive-2",
+      "description": "Exclusive 2",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1749116180/portfolio-assets/h4tuwftuhxpconbseisz.png",
+      "isPremium": true,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1749116180/portfolio-assets/h4tuwftuhxpconbseisz.png",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "exclusive",
+      "tags": [
+        "Exclusive 2"
+      ],
+      "createdAt": "2025-06-07T08:28:57.839Z",
+      "updatedAt": "2025-06-07T08:28:57.839Z",
+      "id": "item-1749284937839"
+    },
+    {
+      "title": "Behind scenes 2",
+      "slug": "behind-scenes-2-1",
+      "description": "Behind scenes 2",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg",
+      "isPremium": true,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1749017128/portfolio-assets/dvfttfgqxswzcmtwhiwu.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "behind-scenes",
+      "tags": [
+        "Behind scenes 2"
+      ],
+      "createdAt": "2025-06-07T08:28:12.116Z",
+      "updatedAt": "2025-06-07T08:28:12.116Z",
+      "id": "item-1749284892116"
+    },
+    {
+      "title": "Gallery Image delete test",
+      "slug": "gallery-image-delete-test",
+      "description": "Gallery Image delete test",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748519523/portfolio-assets/bmhj57ne8hxei2c5fybg.png",
+      "isPremium": false,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748519523/portfolio-assets/bmhj57ne8hxei2c5fybg.png",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "public",
+      "tags": [
+        "Gallery"
+      ],
+      "createdAt": "2025-06-07T08:23:54.121Z",
+      "updatedAt": "2025-06-07T08:23:54.121Z",
+      "id": "item-1749284634121"
+    },
+    {
+      "title": "Gallery delete test",
+      "slug": "gallery-delete-test",
+      "description": "Gallery delete test",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748944777/portfolio-assets/be3kfqjbfwuvdarpwkn4.png",
+      "isPremium": true,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748944777/portfolio-assets/be3kfqjbfwuvdarpwkn4.png",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1749017128/portfolio-assets/dvfttfgqxswzcmtwhiwu.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1749021912/portfolio-assets/ge0sjop4qkmjsvwrsiye.png"
+      ],
+      "videoUrl": "",
+      "galleryType": "behind-scenes",
+      "tags": [
+        "deletetest"
+      ],
+      "createdAt": "2025-06-06T16:51:45.622Z",
+      "updatedAt": "2025-06-06T16:51:45.622Z",
+      "id": "item-1749228705622"
+    },
+    {
+      "title": "Exclusive image delete test",
+      "slug": "exclusive-image-delete-test",
+      "description": "Exclusive image delete test",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748944768/portfolio-assets/fohsipo1qv3wkifg8toh.png",
+      "isPremium": true,
+      "type": "image",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748944768/portfolio-assets/fohsipo1qv3wkifg8toh.png",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748967789/portfolio-assets/jpvzirswuy9fo3cnumpu.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748780439/portfolio-assets/ok8o100zjt0ihdwrvvju.jpg",
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1749017975/portfolio-assets/yh0iayn7q7qjgj2scv5x.jpg"
+      ],
+      "videoUrl": "",
+      "galleryType": "exclusive",
+      "tags": [
+        "Galleryvideo"
+      ],
+      "createdAt": "2025-06-06T08:22:36.310Z",
+      "updatedAt": "2025-06-06T08:22:36.310Z",
+      "id": "item-1749198156310"
+    },
+    {
+      "id": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1749021912/portfolio-assets/ge0sjop4qkmjsvwrsiye.png",
+      "type": "image",
+      "title": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1749021912/portfolio-assets/ge0sjop4qkmjsvwrsiye.png Hero Image",
+      "slug": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1749021912/portfolio-assets/ge0sjop4qkmjsvwrsiye.png",
+      "description": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1749021912/portfolio-assets/ge0sjop4qkmjsvwrsiye.png gallery hero image",
+      "coverImage": "behind-scenes",
+      "imageUrls": [
+        "behind-scenes"
+      ],
+      "isPremium": false,
+      "galleryType": "https://res.cloudinary.com/dllj4etjv/image/upload/v1749021912/portfolio-assets/ge0sjop4qkmjsvwrsiye.png",
+      "createdAt": "2025-06-07T08:54:07.132Z",
+      "updatedAt": "2025-06-07T08:54:07.132Z",
+      "tags": []
+    },
+    {
+      "id": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/b24cc4ux8vxm9socheds.jpg",
+      "type": "image",
+      "title": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/b24cc4ux8vxm9socheds.jpg Hero Image",
+      "slug": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/b24cc4ux8vxm9socheds.jpg",
+      "description": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/b24cc4ux8vxm9socheds.jpg gallery hero image",
+      "coverImage": "public",
+      "imageUrls": [
+        "public"
+      ],
+      "isPremium": false,
+      "galleryType": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/b24cc4ux8vxm9socheds.jpg",
+      "createdAt": "2025-06-09T11:52:45.037Z",
+      "updatedAt": "2025-06-09T11:52:45.037Z",
+      "tags": []
+    },
+    {
+      "id": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748774756/portfolio-assets/ik60osecydgutrvvbqwx.jpg",
+      "type": "image",
+      "title": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748774756/portfolio-assets/ik60osecydgutrvvbqwx.jpg Hero Image",
+      "slug": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748774756/portfolio-assets/ik60osecydgutrvvbqwx.jpg",
+      "description": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748774756/portfolio-assets/ik60osecydgutrvvbqwx.jpg gallery hero image",
+      "coverImage": "public",
+      "imageUrls": [
+        "public"
+      ],
+      "isPremium": false,
+      "galleryType": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748774756/portfolio-assets/ik60osecydgutrvvbqwx.jpg",
+      "createdAt": "2025-06-07T08:54:57.212Z",
+      "updatedAt": "2025-06-07T08:54:57.212Z",
+      "tags": []
+    },
+    {
+      "id": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+      "type": "image",
+      "title": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg Hero Image",
+      "slug": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+      "description": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg gallery hero image",
+      "coverImage": "exclusive",
+      "imageUrls": [
+        "exclusive"
+      ],
+      "isPremium": false,
+      "galleryType": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+      "createdAt": "2025-06-12T09:04:01.591Z",
+      "updatedAt": "2025-06-12T09:04:01.591Z",
+      "tags": []
+    },
+    {
+      "id": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg",
+      "type": "image",
+      "title": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg Hero Image",
+      "slug": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg",
+      "description": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg gallery hero image",
+      "coverImage": "public",
+      "imageUrls": [
+        "public"
+      ],
+      "isPremium": false,
+      "galleryType": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg",
+      "createdAt": "2025-06-09T07:31:33.234Z",
+      "updatedAt": "2025-06-09T07:31:33.234Z",
+      "tags": []
+    },
+    {
+      "id": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748519566/portfolio-assets/iiasobdcc1g8zkbs4qpu.png",
+      "type": "image",
+      "title": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748519566/portfolio-assets/iiasobdcc1g8zkbs4qpu.png Hero Image",
+      "slug": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1748519566/portfolio-assets/iiasobdcc1g8zkbs4qpu.png",
+      "description": "Https://res.cloudinary.com/dllj4etjv/image/upload/v1748519566/portfolio-assets/iiasobdcc1g8zkbs4qpu.png gallery hero image",
+      "coverImage": "public",
+      "imageUrls": [
+        "public"
+      ],
+      "isPremium": false,
+      "galleryType": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748519566/portfolio-assets/iiasobdcc1g8zkbs4qpu.png",
+      "createdAt": "2025-06-09T15:23:51.318Z",
+      "updatedAt": "2025-06-09T15:23:51.318Z",
+      "tags": []
+    },
+    {
+      "id": "hero-public",
+      "type": "image",
+      "title": "Public Gallery",
+      "slug": "hero-public",
+      "description": "Explore our collection of public photoshoots and videos",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+      "imageUrls": [
+        "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg"
+      ],
+      "isPremium": false,
+      "galleryType": "public",
+      "createdAt": "2025-06-12T11:55:40.020Z",
+      "updatedAt": "2025-06-12T11:55:40.020Z",
+      "tags": []
+    }
+  ],
+  "videos": [
+    {
+      "title": "1006test",
+      "slug": "1006test",
+      "description": "1006tester",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/b24cc4ux8vxm9socheds.jpg",
+      "isPremium": true,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748533396/portfolio-assets/bufhzt6wkubjxaun1dny.mp4",
+      "galleryType": "exclusive",
+      "tags": [
+        "1006tester"
+      ],
+      "createdAt": "2025-06-10T08:10:04.767Z",
+      "updatedAt": "2025-06-10T08:10:04.767Z",
+      "id": "item-1749543004767"
+    },
+    {
+      "title": "09 06 exclusive video set",
+      "slug": "09-06-exclusive-video-set",
+      "description": "09 06 exclusive video set",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748604028/portfolio-assets/bwjyjblr6ox4qgf9b2no.jpg",
+      "isPremium": true,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748522987/portfolio-assets/qpkumyadpq9rkqvox9jk.mp4",
+      "galleryType": "exclusive",
+      "tags": [
+        "0906"
+      ],
+      "createdAt": "2025-06-09T08:09:52.800Z",
+      "updatedAt": "2025-06-09T08:09:52.800Z",
+      "id": "item-1749456592800"
+    },
+    {
+      "title": "08 06 behind video set",
+      "slug": "08-06-behind-video-set",
+      "description": "",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748944777/portfolio-assets/be3kfqjbfwuvdarpwkn4.png",
+      "isPremium": true,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748522987/portfolio-assets/qpkumyadpq9rkqvox9jk.mp4",
+      "galleryType": "behind-scenes",
+      "tags": [
+        "test080"
+      ],
+      "createdAt": "2025-06-08T06:57:41.759Z",
+      "updatedAt": "2025-06-08T06:57:41.759Z",
+      "id": "item-1749365861759"
+    },
+    {
+      "title": "08 06 exclusive video set",
+      "slug": "08-06-exclusive-video-set",
+      "description": "",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748944777/portfolio-assets/be3kfqjbfwuvdarpwkn4.png",
+      "isPremium": true,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748533396/portfolio-assets/bufhzt6wkubjxaun1dny.mp4",
+      "galleryType": "exclusive",
+      "tags": [
+        "Exclusive0608"
+      ],
+      "createdAt": "2025-06-08T06:56:40.578Z",
+      "updatedAt": "2025-06-08T06:56:40.578Z",
+      "id": "item-1749365800578"
+    },
+    {
+      "title": "Gallery test 2",
+      "slug": "gallery-test-2-1",
+      "description": "Gallery test 2",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748519523/portfolio-assets/bmhj57ne8hxei2c5fybg.png",
+      "isPremium": false,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748522987/portfolio-assets/qpkumyadpq9rkqvox9jk.mp4",
+      "galleryType": "public",
+      "tags": [
+        "Gallery test 2"
+      ],
+      "createdAt": "2025-06-07T08:34:32.054Z",
+      "updatedAt": "2025-06-07T08:34:32.054Z",
+      "id": "item-1749285272054"
+    },
+    {
+      "title": "Exclusive 2",
+      "slug": "exclusive-2-2",
+      "description": "Exclusive 2",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1749116180/portfolio-assets/h4tuwftuhxpconbseisz.png",
+      "isPremium": true,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748533396/portfolio-assets/bufhzt6wkubjxaun1dny.mp4",
+      "galleryType": "exclusive",
+      "tags": [
+        "Exclusive 2"
+      ],
+      "createdAt": "2025-06-07T08:32:18.545Z",
+      "updatedAt": "2025-06-07T08:32:18.545Z",
+      "id": "item-1749285138545"
+    },
+    {
+      "title": "Behind scenes 2",
+      "slug": "behind-scenes-2",
+      "description": "Behind scenes 2",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748969364/portfolio-assets/ag4dm1s2mpyqlnsfwttt.jpg",
+      "isPremium": true,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748522987/portfolio-assets/qpkumyadpq9rkqvox9jk.mp4",
+      "galleryType": "behind-scenes",
+      "tags": [
+        "Behind2"
+      ],
+      "createdAt": "2025-06-07T08:27:37.194Z",
+      "updatedAt": "2025-06-07T08:27:37.194Z",
+      "id": "item-1749284857194"
+    },
+    {
+      "title": "Exclusive video test",
+      "slug": "exclusive-video-test",
+      "description": "Exclusive video test",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748780438/portfolio-assets/wvvqyxssk9khwbbl65dk.jpg",
+      "isPremium": true,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748348959/samples/elephants.mp4",
+      "galleryType": "exclusive",
+      "tags": [
+        "Gallery"
+      ],
+      "createdAt": "2025-06-06T08:21:14.055Z",
+      "updatedAt": "2025-06-06T08:21:14.055Z",
+      "id": "item-1749198074055"
+    },
+    {
+      "title": "Gallery video  media test delete3",
+      "slug": "gallery-video-media-test-delete3",
+      "description": "Gallery video  media test delete",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1749021912/portfolio-assets/ge0sjop4qkmjsvwrsiye.png",
+      "isPremium": false,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748522987/portfolio-assets/qpkumyadpq9rkqvox9jk.mp4",
+      "galleryType": "public",
+      "tags": [
+        "Galleryvideo"
+      ],
+      "createdAt": "2025-06-06T08:19:22.153Z",
+      "updatedAt": "2025-06-06T08:19:22.153Z",
+      "id": "item-1749197962153"
+    },
+    {
+      "title": "Behind scenes video test",
+      "slug": "behind-scenes-video-test",
+      "description": "Behind scenes video test",
+      "coverImage": "https://res.cloudinary.com/dllj4etjv/image/upload/v1748519571/portfolio-assets/gkw3glcsclunysf5pdr8.png",
+      "isPremium": true,
+      "type": "video",
+      "imageUrls": [],
+      "videoUrl": "https://res.cloudinary.com/dllj4etjv/video/upload/v1748533396/portfolio-assets/bufhzt6wkubjxaun1dny.mp4",
+      "backgroundImage": "",
+      "galleryType": "behind-scenes",
+      "tags": [
+        "Delte",
+        "test"
+      ],
+      "createdAt": "2025-06-01T13:42:42.881Z",
+      "updatedAt": "2025-06-01T13:42:42.881Z",
+      "id": "item-1748785362881"
+    }
+  ],
+  "heroSection": {
+    "id": "hero-https://res.cloudinary.com/dllj4etjv/image/upload/v1749648175/portfolio-assets/qgxwbde5czob0bie9bfm.jpg",
+    "type": "hero",
+    "title": "Gallery Hero",
+    "description": "",
+    "backgroundMedia": "exclusive",
+    "mediaType": "image",
+    "width": "100%",
+    "height": "60vh",
+    "galleryType": "https://res.cloudinary.com/dllj4etjv/image/upload/v1749648175/portfolio-assets/qgxwbde5czob0bie9bfm.jpg",
+    "updatedAt": "2025-06-12T16:53:34.647Z"
+  }
+}

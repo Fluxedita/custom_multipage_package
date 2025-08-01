@@ -1,0 +1,63 @@
+{
+  "profile_image": "/placeholder.svg?height=400&width=400",
+  "background_image": "/placeholder.svg?height=1080&width=1920",
+  "hero_image": "/uploads/images/happ-hotel-room-b16c56db.jpeg",
+  "name": "admin",
+  "title": "Content Creator & Photographer",
+  "description": "Based in London, sharing my creative journey through photography and exclusive content with my amazing community.",
+  "bio": {
+    "title": "About Me",
+    "paragraphs": [
+      "Hi there! I'm admin, a 27-year-old content creator based in London. My journey began five years ago when I picked up a camera and fell in love with capturing moments that tell stories.",
+      "With a background in photography and a passion for fashion, I've built a community of like-minded individuals who appreciate authentic, artistic content that pushes boundaries while remaining tasteful.",
+      "When I'm not behind the camera, you'll find me exploring London's hidden coffee shops, attending gallery openings, or planning my next travel adventure. I believe in living life to the fullest and sharing those experiences with my community."
+    ],
+    "interestsTitle": "My Interests"
+  },
+  "interests": [
+    {
+      "icon": "Camera",
+      "label": "Photography"
+    },
+    {
+      "icon": "Heart",
+      "label": "Fashion"
+    },
+    {
+      "icon": "Coffee",
+      "label": "Coffee"
+    },
+    {
+      "icon": "Music",
+      "label": "Music"
+    },
+    {
+      "icon": "Plane",
+      "label": "Travel"
+    },
+    {
+      "icon": "Book",
+      "label": "Reading"
+    }
+  ],
+  "bio_images": [
+    "/placeholder.svg?height=400&width=400",
+    "/placeholder.svg?height=800&width=400",
+    "/placeholder.svg?height=400&width=400"
+  ],
+  "cta": {
+    "backgroundImage": "/placeholder.svg?height=800&width=1600",
+    "title": "Join My Exclusive Membership",
+    "description": "Get access to premium content, personal interactions, and be part of my creative journey with exclusive benefits you won't find anywhere else."
+  },
+  "benefits": [
+    "Exclusive photoshoots not available anywhere else",
+    "Behind-the-scenes content from my daily life",
+    "Direct messaging and personal interactions",
+    "Early access to new content before anyone else",
+    "Input on future photoshoots and content ideas",
+    "Monthly Q&A sessions and special events"
+  ],
+  "testimonials": [],
+  "social_links": []
+}

@@ -1,0 +1,101 @@
+---
+This is a placeholder file to allow directory creation for the dynamic API route. Please create the following directory structure manually if your system does not support programmatic directory creation:
+
+app/api/pages/[slug]/content/route.ts
+
+Once the directory exists, the following code should be placed in route.ts:
+
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
+import { cookies } from 'next/headers';
+import type { Database } from '@/lib/database.types';
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+// Fetch page_content by slug (GET)
+export async function GET(req: NextRequest, { params }: { params: { slug: string } }) {
+  const { slug } = params;
+  const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
+
+  // Get page by slug
+  const { data: page, error: pageError } = await supabase
+    .from('custom_pages')
+    .select('id, title, slug, type')
+    .eq('slug', slug)
+    .single();
+
+  if (pageError || !page) {
+    return NextResponse.json({ error: 'Page not found' }, { status: 404 });
+  }
+
+  // Get content by page_id
+  const { data: content, error: contentError } = await supabase
+    .from('page_content')
+    .select('*')
+    .eq('page_id', page.id)
+    .single();
+
+  if (contentError || !content) {
+    return NextResponse.json({ error: 'Content not found' }, { status: 404 });
+  }
+
+  return NextResponse.json({ page, content }, { status: 200 });
+}
+
+// Update page_content.sections (PATCH)
+export async function PATCH(req: NextRequest, { params }: { params: { slug: string } }) {
+  // Auth check (admin only)
+  const cookieStore = cookies();
+  const raw = cookieStore.get('sb-kohpccphgpdzcawxmviu-auth-token')?.value;
+  let accessToken = undefined;
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw);
+      accessToken = Array.isArray(parsed) ? parsed[0] : parsed;
+    } catch {
+      accessToken = raw;
+    }
+  }
+  if (!accessToken) {
+    return NextResponse.json({ error: 'Unauthorized (no token)' }, { status: 401 });
+  }
+  const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+  });
+  // Get user
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user || user.email !== process.env.ADMIN_EMAIL) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const { slug } = params;
+  const { sections } = await req.json();
+  if (!Array.isArray(sections)) {
+    return NextResponse.json({ error: 'Invalid sections' }, { status: 400 });
+  }
+  // Get page by slug
+  const { data: page, error: pageError } = await supabase
+    .from('custom_pages')
+    .select('id')
+    .eq('slug', slug)
+    .single();
+  if (pageError || !page) {
+    return NextResponse.json({ error: 'Page not found' }, { status: 404 });
+  }
+  // Update page_content
+  const { data: updated, error: updateError } = await supabase
+    .from('page_content')
+    .update({ sections })
+    .eq('page_id', page.id)
+    .select()
+    .single();
+  if (updateError) {
+    return NextResponse.json({ error: updateError.message }, { status: 500 });
+  }
+  return NextResponse.json({ updated }, { status: 200 });
+}

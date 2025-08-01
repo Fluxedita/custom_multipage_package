@@ -1,0 +1,85 @@
+{
+  "images": [
+    {
+      "id": "img-1",
+      "slug": "summer-photoshoot",
+      "title": "Summer Photoshoot",
+      "description": "Beach vibes and summer feels in this casual outdoor photoshoot.",
+      "coverImage": "/placeholder.svg?height=400&width=600",
+      "isPremium": false,
+      "type": "image",
+      "createdAt": "2023-06-15T10:00:00Z",
+      "updatedAt": "2023-06-15T10:00:00Z",
+      "tags": [
+        "summer",
+        "beach",
+        "fashion"
+      ],
+      "imageUrls": [
+        "/placeholder.svg?height=800&width=1200",
+        "/placeholder.svg?height=800&width=1200",
+        "/placeholder.svg?height=800&width=1200",
+        "/placeholder.svg?height=800&width=1200",
+        "/placeholder.svg?height=800&width=1200"
+      ]
+    },
+    {
+      "id": "img-2",
+      "slug": "urban-exploration",
+      "title": "Urban Exploration",
+      "description": "Exploring the city streets and urban landscapes in this edgy photoshoot.",
+      "coverImage": "/placeholder.svg?height=400&width=600",
+      "isPremium": false,
+      "type": "image",
+      "createdAt": "2023-07-22T14:30:00Z",
+      "updatedAt": "2023-07-22T14:30:00Z",
+      "tags": [
+        "urban",
+        "street",
+        "fashion"
+      ],
+      "imageUrls": [
+        "/placeholder.svg?height=800&width=1200",
+        "/placeholder.svg?height=800&width=1200",
+        "/placeholder.svg?height=800&width=1200"
+      ]
+    }
+  ],
+  "videos": [
+    {
+      "id": "vid-1",
+      "slug": "morning-routine",
+      "title": "My Morning Routine",
+      "description": "A glimpse into my morning routine and self-care rituals.",
+      "coverImage": "/placeholder.svg?height=400&width=600",
+      "isPremium": false,
+      "type": "video",
+      "createdAt": "2023-09-01T08:00:00Z",
+      "updatedAt": "2023-09-01T08:00:00Z",
+      "tags": [
+        "lifestyle",
+        "routine",
+        "selfcare"
+      ],
+      "videoUrl": "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+      "backgroundImage": "/placeholder.svg?height=1080&width=1920"
+    },
+    {
+      "id": "vid-2",
+      "slug": "workout-session",
+      "title": "Full Body Workout Session",
+      "description": "Follow along with my favorite full body workout routine.",
+      "coverImage": "/placeholder.svg?height=400&width=600",
+      "isPremium": false,
+      "type": "video",
+      "createdAt": "2023-08-15T15:30:00Z",
+      "updatedAt": "2023-08-15T15:30:00Z",
+      "tags": [
+        "fitness",
+        "workout",
+        "health"
+      ],
+      "videoUrl": "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4"
+    }
+  ]
+}
