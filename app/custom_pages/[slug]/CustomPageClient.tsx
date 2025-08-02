@@ -43,6 +43,7 @@ import {
   TextWithVideoLeftSection,
   TextWithVideoRightSection,
   EditableTitleSection,
+  MediaStoryCardSection,
 } from '@/app/custom_pages/components/sections';
 import { HeroSectionResponsive } from '../components/sections/HeroSectionResponsive';
 import FluxeditaAdvancedFormSection from '@/app/custom_contact_section/FluxeditaAdvancedFormSection';
@@ -99,12 +100,72 @@ export default function CustomPageClient() {
   // State management
   const [sections, setSections] = useState<Section[]>([]);
   const [isDirty, setIsDirty] = useState(false);
+  const [mediaDialogCard, setMediaDialogCard] = useState<{sectionIndex: number; cardId: string} | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [showControls, setShowControls] = useState(false);
-  const [isMediaDialogOpen, setMediaDialogOpen] = useState(false);
   const [mediaDialogIdx, setMediaDialogIdx] = useState<number | null>(null);
+  const [isMediaDialogOpen, setIsMediaDialogOpen] = useState(false);
   const [currentMediaCardId, setCurrentMediaCardId] = useState<string | null>(null);
-  const [currentMediaSectionIdx, setCurrentMediaSectionIdx] = useState<number | null>(null);
+  
+  // Open media dialog for a specific card
+  const openMediaDialog = (sectionIndex: number, cardId: string) => {
+    setMediaDialogCard({ sectionIndex, cardId });
+    setMediaDialogIdx(sectionIndex);
+    setIsMediaDialogOpen(true);
+  };
+  
+  // Handle media selection from media library
+  const handleMediaSelected = (url: string, type: 'image' | 'video' = 'image') => {
+    if (mediaDialogCard) {
+      // Handle media selection for MediaPlaceholderSection
+      const { sectionIndex, cardId } = mediaDialogCard;
+      const section = sections[sectionIndex];
+      
+      if (section?.type === 'media-placeholder' && section.cards) {
+        const updatedSections = [...sections];
+        const updatedCards = [...section.cards];
+        const cardIndex = updatedCards.findIndex(card => card.id === cardId);
+        
+        if (cardIndex !== -1) {
+          updatedCards[cardIndex] = {
+            ...updatedCards[cardIndex],
+            mediaUrl: url,
+            mediaType: type,
+            thumbnailUrl: type === 'image' ? url : (updatedCards[cardIndex]?.thumbnailUrl || '')
+          };
+          
+          updatedSections[sectionIndex] = {
+            ...section,
+            cards: updatedCards
+          };
+          
+          setSections(updatedSections);
+          setIsDirty(true);
+        }
+      }
+    } else if (mediaDialogIdx !== null) {
+      // Handle media selection for other section types
+      const updatedSections = [...sections];
+      const section = updatedSections[mediaDialogIdx];
+      
+      if (section) {
+        updatedSections[mediaDialogIdx] = {
+          ...section,
+          mediaUrl: url,
+          mediaType: type,
+          ...(type === 'image' ? { thumbnailUrl: url } : {})
+        };
+        
+        setSections(updatedSections);
+        setIsDirty(true);
+      }
+    }
+    
+    // Reset dialog states
+    setMediaDialogIdx(null);
+    setMediaDialogCard(null);
+    setIsMediaDialogOpen(false);
+  };
   // Remove isSidebarCollapsed state since we'll use showControls instead
   const [pageProperties, setPageProperties] = useState({
     backgroundColor: '#ffffff',
@@ -144,12 +205,55 @@ export default function CustomPageClient() {
   // --- End footer visibility logic ---
 
   // Handle media selection for media/text and media placeholder sections
-  const handleMediaSelect = (sectionIdx: number, cardId?: string) => {
-    if (cardId) {
-      // For media placeholder sections, store both the section index and card ID
-      setCurrentMediaCardId(cardId);
+  const handleMediaSelect = (url: string, type: 'image' | 'video') => {
+    if (mediaDialogCard) {
+      // Handle media selection for MediaStoryCardSection
+      const { sectionIndex, cardId } = mediaDialogCard;
+      const section = sections[sectionIndex];
+      
+      if (section?.type === 'media-story-cards') {
+        const updatedSections = [...sections];
+        const updatedCards = [...section.cards];
+        const cardIndex = updatedCards.findIndex(card => card.id === cardId);
+        
+        if (cardIndex !== -1) {
+          updatedCards[cardIndex] = {
+            ...updatedCards[cardIndex],
+            mediaUrl: url,
+            mediaType: type,
+            thumbnailUrl: type === 'image' ? url : (updatedCards[cardIndex].thumbnailUrl || '')
+          };
+          
+          updatedSections[sectionIndex] = {
+            ...section,
+            cards: updatedCards
+          };
+          
+          setSections(updatedSections);
+          setIsDirty(true);
+        }
+      }
+    } else if (mediaDialogIdx !== null) {
+      // Handle media selection for other section types
+      const updatedSections = [...sections];
+      const section = updatedSections[mediaDialogIdx];
+      
+      if (section) {
+        updatedSections[mediaDialogIdx] = {
+          ...section,
+          mediaUrl: url,
+          mediaType: type,
+          ...(type === 'image' ? { thumbnailUrl: url } : {})
+        };
+        
+        setSections(updatedSections);
+        setIsDirty(true);
+      }
     }
-    setMediaDialogIdx(sectionIdx);
+    
+    // Reset dialog states
+    setMediaDialogIdx(null);
+    setMediaDialogCard(null);
   };
 
   // Handle duplicate section
@@ -427,6 +531,27 @@ export default function CustomPageClient() {
     }
 
     switch (type) {
+      case 'media-story-cards':
+        return {
+          ...baseSection,
+          type: 'media-story-cards',
+          title: 'Media Story Cards',
+          titleAlignment: 'center',
+          cards: [{
+            id: `card-${Date.now()}`,
+            mediaUrl: '',
+            mediaType: 'image',
+            title: 'Card Title',
+            tagline: 'Card tagline',
+            thumbnailUrl: '',
+            linkUrl: '#',
+            linkTarget: '_self'
+          }],
+          columns: 3,
+          enableSpeech: false,
+          visible: true
+        };
+      
       case 'editable-title':
         return {
           ...baseSection,
@@ -701,6 +826,27 @@ export default function CustomPageClient() {
           enableSpeech: false,
           visible: true
         };
+        
+      case 'media-story-cards':
+        return {
+          ...baseSection,
+          type: 'media-story-cards',
+          title: 'Media Story Cards',
+          titleAlignment: 'center',
+          cards: [{
+            id: `card-${Date.now()}`,
+            mediaUrl: '',
+            mediaType: 'image',
+            title: 'Card Title',
+            tagline: 'Card tagline',
+            thumbnailUrl: '',
+            linkUrl: '#',
+            linkTarget: '_self'
+          }],
+          columns: 3,
+          enableSpeech: false,
+          visible: true
+        };
 
       case 'feature-card-grid':
         return {
@@ -720,7 +866,7 @@ export default function CustomPageClient() {
           formMethod: 'POST',
           fields: [
             { id: 'name', name: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Your name' },
-            { id: 'email', name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'you@example.com' },
+            { id: 'email', name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'jamescroanin@gmail.com' },
             { id: 'message', name: 'message', label: 'Message', type: 'textarea', required: true, placeholder: 'Your message' },
           ],
           mediaUpload: false,
@@ -1622,7 +1768,10 @@ export default function CustomPageClient() {
               onMoveUp={handleMoveUp}
               onMoveDown={handleMoveDown}
               onDelete={handleRemove}
-              onMediaSelect={(cardId) => handleMediaSelect(idx, cardId)}
+              onMediaSelect={(cardId) => {
+                // Open the media dialog for this card
+                openMediaDialog(idx, cardId);
+              }}
               onDuplicate={(duplicatedSection: any) => {
                 const newSections = [...sections];
                 newSections.splice(idx + 1, 0, duplicatedSection as Section);
@@ -1655,6 +1804,60 @@ export default function CustomPageClient() {
           </div>
         );
         break;
+      case 'media-story-cards':
+        sectionComponent = (
+          <div className="relative group">
+            <MediaStoryCardSection
+              section={{
+                ...section,
+                id: section.id,
+                type: 'media-story-cards',
+                title: (section as any).title || 'Featured Stories',
+                enableSpeech: (section as any).enableSpeech !== undefined ? (section as any).enableSpeech : false,
+                cards: (section as any).cards?.map((card: any) => ({
+                  id: card.id || `card-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                  title: card.title || 'Story Title',
+                  tagline: card.tagline || 'A short description of this story',
+                  mediaUrl: card.mediaUrl || '',
+                  mediaType: card.mediaType || 'image',
+                  thumbnailUrl: card.thumbnailUrl || '',
+                  linkUrl: card.linkUrl || '#',
+                  linkTarget: card.linkTarget || '_self' as const
+                })) || [{
+                  id: `card-${Date.now()}`,
+                  title: 'Story Title',
+                  tagline: 'A short description of this story',
+                  mediaUrl: '',
+                  mediaType: 'image',
+                  thumbnailUrl: '',
+                  linkUrl: '#',
+                  linkTarget: '_self' as const
+                }],
+                columns: (section as any).columns || 4,
+                visible: section.visible !== false
+              }}
+              isEditMode={isEditMode}
+              onSectionChange={handleSectionChange}
+              onMediaSelect={(cardId: string) => {
+                // Store the card ID and section index for media selection
+                (window as any).__mediaDialogCardId = cardId;
+                (window as any).__mediaDialogSectionIdx = idx;
+                // Open media library dialog
+                const mediaLibrary = document.querySelector('[data-media-library]') as any;
+                if (mediaLibrary && mediaLibrary.openEditor) {
+                  mediaLibrary.openEditor();
+                }
+              }}
+            />
+            {isEditMode && (
+              <div className="absolute top-2 right-2 z-10">
+                {renderSectionControls(section.id)}
+              </div>
+            )}
+          </div>
+        );
+        break;
+        
       case 'editable-title':
         sectionComponent = (
           <div className="relative group">
@@ -2084,54 +2287,18 @@ export default function CustomPageClient() {
               </div>
             )}
 
-            {/* MediaLibrary dialog for Media/Text sections */}
-            {mediaDialogIdx !== null && (
+            {/* MediaLibrary dialog */}
+            {isMediaDialogOpen && (
               <MediaLibrary
                 isDialog
                 type="all"
-                onCloseAction={() => setMediaDialogIdx(null)}
-                onSelectAction={(url, type) => {
-                  setSections(prev => {
-                    const newSections = [...prev];
-                    if (newSections[mediaDialogIdx]) {
-                      const section = newSections[mediaDialogIdx];
-                      
-                      // Handle media placeholder section
-                      if (section.type === 'media-placeholder' && currentMediaCardId) {
-                        const updatedCards = section.cards.map((card: { id: string }) => 
-                          card.id === currentMediaCardId 
-                            ? { ...card, 
-                                mediaUrl: url, 
-                                mediaType: (type === 'image' || type === 'video') ? type : 'image' 
-                              }
-                            : card
-                        );
-                        newSections[mediaDialogIdx] = {
-                          ...section,
-                          cards: updatedCards
-                        };
-                      } 
-                      // Handle media-text sections
-                      else if (section.type === 'media-text-left' || section.type === 'media-text-right') {
-                        newSections[mediaDialogIdx] = {
-                          ...section,
-                          mediaUrl: url,
-                          mediaType: (type === 'image' || type === 'video') ? type : 'image',
-                        };
-                      } 
-                      // Handle text sections with media
-                      else if (section.type === 'text') {
-                        newSections[mediaDialogIdx] = {
-                          ...section,
-                          mediaUrl: url,
-                          mediaType: (type === 'image' || type === 'video') ? type : 'image',
-                        };
-                      }  
-                    }
-                    return newSections;
-                  });
-                  setIsDirty(true);
+                onCloseAction={() => {
                   setMediaDialogIdx(null);
+                  setMediaDialogCard(null);
+                  setIsMediaDialogOpen(false);
+                }}
+                onSelectAction={(url, type) => {
+                  handleMediaSelected(url, type);
                 }}
               />
             )}

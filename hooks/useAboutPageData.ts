@@ -59,7 +59,7 @@ const defaultProfile: AboutProfile = {
   socialLinks: {
     instagram: "https://instagram.com",
     twitter: "https://twitter.com",
-    email: "contact@example.com"
+    email: "jamescroanin@gmail.com"
   }
 };
 

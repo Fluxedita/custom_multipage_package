@@ -24,6 +24,7 @@ import {
   TwoColumnTextSection,
   QuoteSection,
   HeadingSection,
+  FooterSection,
   PrivacySection,
   HeroSectionResponsive,
   MediaPlaceholderSection,
@@ -31,7 +32,8 @@ import {
   TextWithVideoRightSection,
   ProductPackageLeftSection,
   ProductPackageRightSection,
-} from '@/app/custom_pages/components/sections'
+} 
+from '@/app/custom_pages/components/sections'
 import PageEditFab from "@/components/admin/PageEditFab"
 import PageControlsFab from "@/components/admin/PageControlsFab"
 import { toast } from "sonner"
@@ -40,7 +42,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { SliderSectionType } from "@/app/custom_pages/types/sections"
 import supabase from '@/lib/supabase/client'
 import { Section, InfoCard } from "@/app/custom_pages/types/sections"
-import { PageControls } from "@/app/custom_pages/components/PageControls"
+import { PageControls, PageProperties } from "@/app/custom_pages/components/PageControls"
 import { MediaTextSection as MediaTextSectionType } from "@/app/custom_pages/types/sections"
 import { FeatureSection as FeatureSectionType } from "@/app/custom_pages/types/sections"
 import MediaLibrary from '@/components/media/MediaLibrary'
@@ -50,38 +52,48 @@ import FluxeditaAdvancedFormSection from '@/app/custom_contact_section/Fluxedita
 import { Mail } from 'lucide-react';
 import CustomCodeSection from '@/app/custom_code_section/CustomCodeSection';
 import CustomCodeSectionEditor from '@/app/custom_code_section/CustomCodeSectionEditor';
+import EditableTitleSection from '@/components/sections/EditableTitleSection';
+import { MediaStoryCardSection } from '@/app/custom_pages/components/sections/MediaStoryCardSection';
 
 // Section type for home page
 type HomeSectionType =
   | { type: 'hero' }
   | { type: 'cta' }
   | { type: 'feature-card-grid' }
+  | { type: 'media-story-cards' }
+  | { type: 'divider' }
 
 const DEFAULT_SECTIONS: HomeSectionType[] = [
   { type: 'hero' },
   { type: 'cta' },
   { type: 'feature-card-grid' },
+  { type: 'media-story-cards' },
+  { type: 'divider' },
 ];
 
 // Initial sections for the home page, matching the current layout
 const INITIAL_SECTIONS: Section[] = [
   {
-    id: 'hero',
-    type: 'hero',
-    visible: true,
-    enableSpeech: false,
-    enableTitleSpeech: false,
-    enableDescriptionSpeech: false,
-    title: "Welcome to Our Amazing Editable Web Application",
-    description: "Our Editable Web Application is a Revolution in Website Creation.",
+    id: 'hero-responsive',
+    type: 'hero-responsive',
+    title: 'Welcome to Our Amazing Editable Web Application',
+    description: 'Our Editable Web Application is a Revolution in Website Creation.',
+    buttonText: '',
+    buttonUrl: '',
     backgroundImage: '',
     backgroundMedia: '',
     mediaType: 'image',
-    height: 'h-[40vh] min-h-[300px] max-h-[400px]',
-    width: 'w-full',
+    overlayColor: 'rgba(0,0,0,0.5)',
+    textColor: '#ffffff',
+    enableTitleSpeech: false,
+    enableDescriptionSpeech: false,
+    enableSpeech: false,
+    visible: true,
+    height: '50vh',
     objectFit: 'cover',
     objectPosition: 'center',
-    maxHeight: 400,
+    textVerticalAlign: 'middle',
+    textHorizontalAlign: 'center',
   },
   {
     id: 'cta',
@@ -209,6 +221,7 @@ export default function HomePageClient() {
     pageTitle: 'Home Page',
     metaDescription: '',
     language: 'en',
+    showMoreEnabled: true,
   })
 
   // Slider section state for hero area
@@ -423,10 +436,19 @@ export default function HomePageClient() {
     }
   };
 
-  const handlePagePropertiesChange = (newProperties: any) => {
-    setPageProperties(newProperties)
-    setIsDirty(true)
-  }
+  const handlePagePropertiesChange = (properties: Partial<PageProperties>) => {
+    setPageProperties(prev => {
+      // If showMoreEnabled is being turned off, reset visibleCount to show all sections
+      if (prev.showMoreEnabled && properties.showMoreEnabled === false) {
+        setVisibleCount(1000); // A high number to ensure all sections are shown
+      }
+      return {
+        ...prev,
+        ...properties
+      };
+    });
+    setIsDirty(true);
+  };
 
   // Generate styles from page properties
   const getPageStyles = () => {
@@ -636,23 +658,28 @@ export default function HomePageClient() {
     let newSection: Section;
     switch (type) {
       case 'hero':
+      case 'hero-responsive':
         newSection = {
           id,
-          type: 'hero',
-          visible: true,
-          enableSpeech: false,
-          enableTitleSpeech: false,
-          enableDescriptionSpeech: false,
-          title: 'New Hero Section',
+          type: 'hero-responsive',
+          title: 'New Responsive Hero Section',
           description: '',
+          buttonText: '',
+          buttonUrl: '',
           backgroundImage: '',
           backgroundMedia: '',
           mediaType: 'image',
-          height: 'h-[40vh] min-h-[300px] max-h-[400px]',
-          width: 'w-full',
+          overlayColor: 'rgba(0,0,0,0.5)',
+          textColor: '#ffffff',
+          enableTitleSpeech: false,
+          enableDescriptionSpeech: false,
+          enableSpeech: false,
+          visible: true,
+          height: '50vh',
           objectFit: 'cover',
           objectPosition: 'center',
-          maxHeight: 400,
+          textVerticalAlign: 'middle',
+          textHorizontalAlign: 'center',
         };
         break;
       case 'slider':
@@ -823,7 +850,7 @@ export default function HomePageClient() {
           formMethod: 'POST',
           fields: [
             { id: 'name', name: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Your name' },
-            { id: 'email', name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'you@example.com' },
+            { id: 'email', name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'jamescroanin@gmail.com' },
             { id: 'message', name: 'message', label: 'Message', type: 'textarea', required: true, placeholder: 'Your message' },
           ],
         };
@@ -921,76 +948,64 @@ export default function HomePageClient() {
           textStyle: {},
         };
         break;
+      case 'twoColumnText':
+        newSection = {
+          id,
+          type: 'twoColumnText',
+          leftColumn: '',
+          rightColumn: '',
+          enableLeftColumnSpeech: false,
+          enableRightColumnSpeech: false,
+          enableSpeech: false,
+          visible: true,
+        };
+        break;
+      case 'content':
+        newSection = {
+          id,
+          type: 'content',
+          content: 'This is the default content section. You can edit this to add your own content.',
+          alignment: 'left',
+          fontSize: '16px',
+          fontColor: '#333333',
+          backgroundColor: 'transparent',
+          padding: '16px',
+          margin: '16px 0',
+          textStyle: {
+            fontStyle: 'normal',
+            fontColor: '#333333',
+            fontSize: '16px',
+          },
+          enableSpeech: false,
+          visible: true
+        };
+        break;
       case 'mediaTextColumns':
         newSection = {
           id,
           type: 'mediaTextColumns',
-          visible: true,
-          enableSpeech: false,
-          title: 'New Media Text Columns',
+          title: '',
           description: '',
           mediaUrl: '',
           mediaType: 'image',
           mediaPosition: 'left',
           enableTitleSpeech: false,
           enableDescriptionSpeech: false,
+          enableSpeech: false,
+          visible: true
         };
         break;
-      case 'twoColumnText':
+      case 'footer':
         newSection = {
           id,
-          type: 'twoColumnText',
-          visible: true,
-          enableSpeech: false,
-          leftColumn: '',
-          rightColumn: '',
-          enableLeftColumnSpeech: false,
-          enableRightColumnSpeech: false,
-        };
-        break;
-      case 'heading':
-        newSection = {
-          id,
-          type: 'heading',
-          visible: true,
-          enableSpeech: false,
-          text: 'New Heading',
-          level: 'h2',
-          alignment: 'left',
-          fontSize: '2rem',
-          fontColor: '#222',
-        };
-        break;
-      case 'quote':
-        newSection = {
-          id,
-          type: 'quote',
-          visible: true,
-          enableSpeech: false,
-          text: 'A quote goes here',
-          author: '',
-          alignment: 'left',
-          fontSize: '1.25rem',
-          fontColor: '#222',
-        };
-        break;
-      case 'gallery':
-        newSection = {
-          id,
-          type: 'gallery',
-          visible: true,
-          enableSpeech: false,
-          title: 'New Gallery',
-          description: '',
-          images: [
-            { url: '', alt: 'Image 1' },
-            { url: '', alt: 'Image 2' },
-          ],
-          layout: 'grid',
-          enableTitleSpeech: false,
-          enableDescriptionSpeech: false,
-          enableImageSpeech: false,
-        };
+          type: 'footer',
+          numColumns: 3,
+          columns: [],
+          backgroundColor: '#f8f9fa',
+          textColor: '#333333',
+          padding: '2rem',
+          visible: true
+        } as any;
         break;
       case 'text-with-video-left':
         newSection = {
@@ -1003,8 +1018,6 @@ export default function HomePageClient() {
           description: 'Add a description for this section.',
           videoId: '',
           buttonText: 'Watch Tutorial',
-          horizontalPadding: 0,
-          verticalPadding: 0,
         };
         break;
       case 'text-with-video-right':
@@ -1039,8 +1052,6 @@ export default function HomePageClient() {
           imageAlt: '',
           horizontalPadding: 0,
           verticalPadding: 0,
-          learnMoreText: 'Learn More',
-          learnMoreUrl: '#',
         };
         break;
       case 'product-package-right':
@@ -1060,8 +1071,68 @@ export default function HomePageClient() {
           imageAlt: '',
           horizontalPadding: 0,
           verticalPadding: 0,
-          learnMoreText: 'Learn More',
-          learnMoreUrl: '#',
+        };
+        break;
+      case 'media-story-cards':
+        newSection = {
+          id,
+          type: 'media-story-cards',
+          title: 'Featured Stories',
+          cards: [
+            {
+              id: `card-${Date.now()}-1`,
+              title: 'Story 1',
+              tagline: 'A short description of story 1',
+              mediaUrl: '',
+              mediaType: 'image',
+              thumbnailUrl: '',
+              linkUrl: '#'
+            },
+            {
+              id: `card-${Date.now()}-2`,
+              title: 'Story 2',
+              tagline: 'A short description of story 2',
+              mediaUrl: '',
+              mediaType: 'image',
+              thumbnailUrl: '',
+              linkUrl: '#'
+            },
+            {
+              id: `card-${Date.now()}-3`,
+              title: 'Story 3',
+              tagline: 'A short description of story 3',
+              mediaUrl: '',
+              mediaType: 'image',
+              thumbnailUrl: '',
+              linkUrl: '#'
+            }
+          ],
+          columns: 3,
+          visible: true,
+          enableSpeech: false
+        };
+        break;
+      case 'heading':
+        newSection = {
+          id,
+          type: 'heading',
+          text: 'New Heading',
+          level: 'h2',
+          alignment: 'center',
+          fontSize: '2rem',
+          fontColor: '#222',
+          enableSpeech: false,
+          visible: true,
+        };
+        break;
+      case 'editable-title':
+        newSection = {
+          id,
+          type: 'editable-title',
+          title: 'New Page Title',
+          slug: 'new-page-title',
+          visible: true,
+          enableSpeech: false,
         };
         break;
       default:
@@ -1105,6 +1176,8 @@ export default function HomePageClient() {
 
   console.log('Home page rendering with data:', { heroImage, aboutMedia, freeContentImage })
 
+  const [visibleCount, setVisibleCount] = useState(30);
+
   return (
     <main className="min-h-screen" style={getPageStyles()}>
       {/* Floating admin button for opening PageControls */}
@@ -1141,99 +1214,55 @@ export default function HomePageClient() {
       )}
 
       {/* Render all sections dynamically */}
-      {sections.map((section, idx) => (
-        <div key={section.id} className="relative group">
-          {/* Section controls (move, remove, visibility) */}
-          {isAdmin && isEditMode && !previewMode && (
-            <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-              <Button size="sm" variant="outline" onClick={() => handleMoveSection(idx, 'up')} disabled={idx === 0}>
-                <span className="sr-only">Move Up</span>
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
-              </Button>
-              <Button size="sm" variant="outline" onClick={() => handleMoveSection(idx, 'down')} disabled={idx === sections.length - 1}>
-                <span className="sr-only">Move Down</span>
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
-              </Button>
-              <Button size="sm" variant="outline" onClick={() => handleRemoveSection(idx)}>
-                <span className="sr-only">Remove</span>
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
-              </Button>
-              <Button size="sm" variant={('visible' in section ? section.visible !== false : true) ? "outline" : "destructive"} onClick={() => handleToggleSectionVisibility(idx, !('visible' in section ? section.visible !== false : true))}>
-                <span className="sr-only">Toggle Visibility</span>
-                {('visible' in section ? section.visible !== false : true) ? (
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                ) : (
-                  <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.77 21.77 0 0 1 5.06-7.06M1 1l22 22"/></svg>
+      {sections.slice(0, visibleCount).map((section, idx) => {
+        const isFullWidth = (section as any).width === '100vw';
+        return (
+          <section
+            key={section.id}
+            className={
+              isFullWidth
+                ? 'w-screen left-1/2 right-1/2 ml-[-50vw] mr-[-50vw] relative'
+                : ''
+            }
+            style={isFullWidth ? { width: '100vw' } : {}}
+          >
+            {isFullWidth ? (
+              <div className="relative group">
+                {/* Section controls (move, remove, visibility) */}
+                {isAdmin && isEditMode && !previewMode && (
+                  <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                    <Button size="sm" variant="outline" onClick={() => handleMoveSection(idx, 'up')} disabled={idx === 0}>
+                      <span className="sr-only">Move Up</span>
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => handleMoveSection(idx, 'down')} disabled={idx === sections.length - 1}>
+                      <span className="sr-only">Move Down</span>
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => handleRemoveSection(idx)}>
+                      <span className="sr-only">Remove</span>
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </Button>
+                    <Button size="sm" variant={('visible' in section ? section.visible !== false : true) ? "outline" : "destructive"} onClick={() => handleToggleSectionVisibility(idx, !('visible' in section ? section.visible !== false : true))}>
+                      <span className="sr-only">Toggle Visibility</span>
+                      {('visible' in section ? section.visible !== false : true) ? (
+                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      ) : (
+                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.77 21.77 0 0 1 5.06-7.06M1 1l22 22"/></svg>
+                      )}
+                    </Button>
+                  </div>
                 )}
-              </Button>
-            </div>
-          )}
-          {/* Render section by type */}
-          {
-            (() => {
-              let renderedSection = null;
-              switch (section.type) {
-                case 'hero':
-                  renderedSection = (
-                    <section className="relative h-[40vh] min-h-[300px] max-h-[400px]">
-                      <HeroSectionResponsive
-                        section={{
-                          ...section,
-                          type: 'hero-responsive',
-                          objectFit: section.objectFit === 'auto' ? 'cover' : section.objectFit,
-                          titleTextStyle: {
-                            fontColor: '#FFFFFF',
-                            fontSize: '3rem',
-                            textOutline: { color: '#000', width: '0' },
-                            textBackground: { color: 'transparent', opacity: 1, blur: '0px', borderRadius: '0px', padding: '0px' },
-                          },
-                          descriptionTextStyle: {
-                            fontColor: '#FFFFFF',
-                            fontSize: '1.75rem',
-                            textBackground: { color: 'transparent', opacity: 1, blur: '0px', borderRadius: '0px', padding: '0px' },
-                          },
-                        }}
-                        isEditMode={isEditMode && !previewMode}
-                        idx={idx}
-                        onSectionChangeAction={s => {
-                          const newSections = [...sections];
-                          newSections[idx] = { ...s, type: 'hero' } as Section;
-                          setSections(newSections);
-                          setIsDirty(true);
-                        }}
-                        speakTextAction={() => {}}
-                        renderSectionControlsAction={() => null}
-                        isDirty={isDirty}
-                        onExitEditMode={() => setEditMode(false)}
-                      />
-                    </section>
-                  );
-                  break;
-                case 'slider':
-                  renderedSection = (
-                    <section className="bg-white rounded-lg shadow-md p-6 mb-8">
-                      <div className="flex flex-row items-start gap-4">
-                        {isAdmin && isEditMode && !previewMode && (
-                          <div className="flex flex-col gap-2 min-w-[160px]">
-                            <Button
-                              onClick={() => saveChanges()}
-                              disabled={isSaving || !isDirty}
-                              className="w-full"
-                            >
-                              {isSaving ? 'Saving...' : 'Save Changes'}
-                            </Button>
-                            <Button
-                              variant="secondary"
-                              onClick={() => setEditMode(false)}
-                              className="w-full"
-                            >
-                              Exit Edit Mode
-                            </Button>
-                          </div>
-                        )}
-                        <div className="flex-1">
+                {/* Render section by type */}
+                {(() => {
+                  let renderedSection = null;
+                  switch (section.type as any) {
+                    case 'slider': {
+                      const sliderSection = section as import('@/app/custom_pages/types/sections').SliderSectionType;
+                      renderedSection = (
+                        <div className="relative group w-full">
                           <SliderSection
-                            section={section}
+                            section={sliderSection}
                             isEditMode={isEditMode && !previewMode}
                             onSectionChange={s => {
                               const newSections = [...sections];
@@ -1241,235 +1270,341 @@ export default function HomePageClient() {
                               setSections(newSections);
                               setIsDirty(true);
                             }}
+                            speakText={() => {}}
                             idx={idx}
                             renderSectionControls={() => null}
                           />
                         </div>
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'advanced-slider':
-                  return (
-                    <AdvancedSliderSection
-                      key={section.id}
-                      section={section}
-                      isEditMode={isEditMode}
-                      onSectionChange={s => {
-                        const newSections = [...sections];
-                        newSections[idx] = s as Section;
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                      idx={idx}
-                      renderSectionControls={() => null}
-                    />
-                  );
-                case 'media-text-left':
-                case 'media-text-right':
-                  renderedSection = (
-                    <section className="py-16 bg-white">
-                      <div className="container px-4 md:px-6">
-                        <MediaTextSection
-                          section={section}
+                      );
+                      break;
+                    }
+                    case 'hero-responsive': {
+                      const heroResponsiveSection = section as import('@/app/custom_pages/types/sections').HeroSectionResponsiveType;
+                      renderedSection = (
+                        <div className="relative group">
+                          <HeroSectionResponsive
+                            section={heroResponsiveSection}
+                            isEditMode={isEditMode && !previewMode}
+                            idx={idx}
+                            onSectionChangeAction={(s: Section) => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakTextAction={() => {}}
+                            renderSectionControlsAction={() => null}
+                            onExitEditMode={() => setEditMode(false)}
+                            isDirty={isDirty}
+                          />
+                          {isEditMode && (
+                            <div className="absolute top-2 right-2 z-10">
+                              {/* Section controls if needed */}
+                            </div>
+                          )}
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'text': {
+                      const textSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TextSection
+                            section={textSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                            onMediaSelect={() => setMediaDialogIdx(idx)}
+                            onDuplicate={(duplicatedSection) => {
+                              const newSections = [...sections];
+                              newSections.splice(idx + 1, 0, duplicatedSection);
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'content': {
+                      const contentSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TextSection
+                            section={{
+                              ...contentSection,
+                              type: 'text',
+                            }}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                            onDuplicate={(duplicatedSection) => {
+                              const newSections = [...sections];
+                              newSections.splice(idx + 1, 0, duplicatedSection);
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'feature': {
+                      const featureSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <FeatureSection
+                            section={featureSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'feature-card-grid': {
+                      const featureCardGridSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <FeatureCardGridSection
+                            section={featureCardGridSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'media-story-cards': {
+                      const mediaStoryCardSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <MediaStoryCardSection
+                            section={mediaStoryCardSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            onMediaSelect={(cardId) => {
+                              setMediaDialogIdx(idx);
+                              (window as any).__mediaDialogCardId = cardId;
+                              (window as any).__mediaDialogIsThumbnail = false;
+                            }}
+                            onThumbnailSelect={(cardId) => {
+                              setMediaDialogIdx(idx);
+                              (window as any).__mediaDialogCardId = cardId;
+                              (window as any).__mediaDialogIsThumbnail = true;
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'info-card': {
+                      const infoCardSection = section as any;
+                      renderedSection = (
+                        <InfoCardSection
+                          section={infoCardSection}
                           isEditMode={isEditMode && !previewMode}
-                          onSectionChange={s => {
+                          onSectionChange={(update: Partial<any>) => {
                             const newSections = [...sections];
-                            newSections[idx] = s as Section;
+                            newSections[idx] = { ...sections[idx], ...update } as Section;
                             setSections(newSections);
                             setIsDirty(true);
                           }}
                           speakText={() => {}}
-                          onMediaSelect={() => setMediaDialogIdx(idx)}
                         />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'feature':
-                  renderedSection = (
-                    <section className="py-16 bg-gray-50">
-                      <div className="container px-4 md:px-6">
-                        <FeatureSection
-                          section={section}
-                          isEditMode={isEditMode && !previewMode}
+                      );
+                      break;
+                    }
+                    case 'divider': {
+                      const dividerSection = section as any;
+                      renderedSection = (
+                        <DividerSection
+                          section={dividerSection}
+                          isEditMode={isEditMode}
                           onSectionChange={s => {
                             const newSections = [...sections];
                             newSections[idx] = s as Section;
                             setSections(newSections);
                             setIsDirty(true);
                           }}
-                          speakText={() => {}}
-                        />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'cta':
-                  renderedSection = (
-                    <section className="py-16 bg-gradient-to-r from-rose-500 to-pink-500 text-white">
-                      <div className="container px-4 md:px-6">
-                        <CTASection
-                          section={section}
-                          isEditMode={isEditMode && !previewMode}
-                          onSectionChange={s => {
-                            const newSections = [...sections];
-                            newSections[idx] = s as Section;
-                            setSections(newSections);
-                            setIsDirty(true);
-                          }}
-                          speakText={() => {}}
-                        />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'feature-card-grid':
-                  renderedSection = (
-                    <section className="py-16 bg-gray-50">
-                      <div className="container px-4 md:px-6">
-                        <FeatureCardGridSection
-                          section={section}
-                          isEditMode={isEditMode && !previewMode}
-                          onSectionChange={s => {
-                            const newSections = [...sections];
-                            newSections[idx] = s as Section;
-                            setSections(newSections);
-                            setIsDirty(true);
-                          }}
-                          speakText={() => {}}
-                        />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'info-card':
-                  renderedSection = (
-                    <InfoCardSection
-                      section={section as InfoCardSectionType}
-                      isEditMode={isEditMode && !previewMode}
-                      onSectionChange={(update: Partial<InfoCardSectionType>) => {
-                        const newSections = [...sections];
-                        newSections[idx] = { ...sections[idx], ...update } as Section;
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                    />
-                  );
-                  break;
-                case 'divider':
-                  renderedSection = (
-                    <DividerSection
-                      section={section as any}
-                      isEditMode={isEditMode}
-                      onSectionChange={s => {
-                        const newSections = [...sections];
-                        newSections[idx] = s as Section;
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                      onDuplicate={(duplicatedSection) => {
-                        const newSections = [...sections];
-                        newSections.splice(idx + 1, 0, duplicatedSection as Section);
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                      idx={idx}
-                      renderSectionControls={() => null}
-                    />
-                  );
-                  break;
-                case 'contact-form':
-                  return (
-                    <div className="relative group">
-                      <ContactFormSection section={section as any} />
-                    </div>
-                  );
-                case 'fluxedita_advanced_form':
-                  return <FluxeditaAdvancedFormSection />;
-                case 'privacy':
-                  renderedSection = (
-                    <PrivacySection
-                      section={section as any}
-                      isEditMode={isEditMode && !previewMode}
-                      onSectionChange={s => {
-                        const newSections = [...sections];
-                        newSections[idx] = s as Section;
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                    />
-                  );
-                  break;
-                case 'custom-code':
-                  renderedSection = isEditMode && !previewMode ? (
-                    <div className="relative group">
-                      <CustomCodeSectionEditor
-                        code={(section as any).code || ''}
-                        onChange={newCode => {
-                          const newSections = [...sections];
-                          newSections[idx] = { ...section, code: newCode };
-                          setSections(newSections);
-                          setIsDirty(true);
-                        }}
-                      />
-                    </div>
-                  ) : (
-                    <CustomCodeSection code={(section as any).code || ''} />
-                  );
-                  break;
-                case 'hero-responsive':
-                  renderedSection = (
-                    <HeroSectionResponsive
-                      section={section as any}
-                      isEditMode={isEditMode && !previewMode}
-                      idx={idx}
-                      onSectionChangeAction={s => {
-                        const newSections = [...sections];
-                        newSections[idx] = s as Section;
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                      speakTextAction={() => {}}
-                      renderSectionControlsAction={() => null}
-                      onExitEditMode={() => setEditMode(false)}
-                      isDirty={isDirty}
-                    />
-                  );
-                  break;
-                case 'text':
-                  renderedSection = (
-                    <section className="py-16 bg-white">
-                      <div className="container px-4 md:px-6">
-                        <TextSection
-                          section={section as any}
-                          isEditMode={isEditMode && !previewMode}
-                          onSectionChange={s => {
-                            const newSections = [...sections];
-                            newSections[idx] = s as Section;
-                            setSections(newSections);
-                            setIsDirty(true);
-                          }}
-                          speakText={() => {}}
-                          onMediaSelect={() => setMediaDialogIdx(idx)}
                           onDuplicate={(duplicatedSection) => {
-                            // Add the duplicated section after the current one
                             const newSections = [...sections];
                             newSections.splice(idx + 1, 0, duplicatedSection);
                             setSections(newSections);
                             setIsDirty(true);
                           }}
+                          idx={idx}
+                          renderSectionControls={() => null}
                         />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'media-placeholder':
-                  renderedSection = (
-                    <section className="py-16">
-                      <div className="container px-4 md:px-6">
+                      );
+                      break;
+                    }
+                    case 'heading': {
+                      const headingSection = section as any;
+                      renderedSection = (
+                        <HeadingSection
+                          section={headingSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onSectionChange={s => {
+                            const newSections = [...sections];
+                            newSections[idx] = s as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                          speakText={() => {}}
+                          idx={idx}
+                          renderSectionControls={() => null}
+                        />
+                      );
+                      break;
+                    }
+                    case 'quote': {
+                      const quoteSection = section as any;
+                      renderedSection = (
+                        <QuoteSection
+                          section={quoteSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onSectionChange={s => {
+                            const newSections = [...sections];
+                            newSections[idx] = s as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                          speakText={() => {}}
+                        />
+                      );
+                      break;
+                    }
+                    case 'cta': {
+                      const ctaSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <CTASection
+                            section={ctaSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'gallery': {
+                      const gallerySection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <GallerySection
+                            section={gallerySection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'media-text-left':
+                    case 'media-text-right': {
+                      const mediaTextSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <MediaTextSection
+                            section={mediaTextSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                            onMediaSelect={() => setMediaDialogIdx(idx)}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'mediaTextColumns': {
+                      const mediaTextColumnsSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <MediaTextColumnsSection
+                            section={mediaTextColumnsSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'twoColumnText': {
+                      const twoColumnTextSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TwoColumnTextSection
+                            section={twoColumnTextSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={(s: Section) => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'media-placeholder': {
+                      const mediaPlaceholderSection = section as any;
+                      renderedSection = (
                         <MediaPlaceholderSection
-                          section={section as any}
+                          section={mediaPlaceholderSection}
                           isEditMode={isEditMode && !previewMode}
                           onSectionChange={s => {
                             const newSections = [...sections];
@@ -1481,32 +1616,58 @@ export default function HomePageClient() {
                           onMoveDown={() => handleMoveSection(idx, 'down')}
                           onDelete={() => handleRemoveSection(idx)}
                           onMediaSelect={(cardId) => {
-                            // Find the card and open media dialog for it
                             const card = (section as any).cards.find((c: any) => c.id === cardId);
                             if (card) {
                               setMediaDialogIdx(idx);
-                              // Store the card ID for media selection
                               (window as any).__mediaDialogCardId = cardId;
+                              (window as any).__mediaDialogIsThumbnail = false;
                             }
                           }}
                           onDuplicate={(duplicatedSection) => {
-                            // Add the duplicated section after the current one
                             const newSections = [...sections];
                             newSections.splice(idx + 1, 0, duplicatedSection);
                             setSections(newSections);
                             setIsDirty(true);
                           }}
                         />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'mediaTextColumns':
-                  renderedSection = (
-                    <section className="py-16 bg-white">
-                      <div className="container px-4 md:px-6">
-                        <MediaTextColumnsSection
-                          section={section as any}
+                      );
+                      break;
+                    }
+                    case 'footer': {
+                      const footerSection = section as any;
+                      renderedSection = (
+                        <FooterSection
+                          section={footerSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onSectionChange={s => {
+                            const newSections = [...sections];
+                            newSections[idx] = s as unknown as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                          speakText={() => {}}
+                        />
+                      );
+                      break;
+                    }
+                    case 'contact-form': {
+                      const contactFormSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <ContactFormSection section={contactFormSection} />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'fluxedita_advanced_form': {
+                      renderedSection = <FluxeditaAdvancedFormSection />;
+                      break;
+                    }
+                    case 'privacy': {
+                      const privacySection = section as any;
+                      renderedSection = (
+                        <PrivacySection
+                          section={privacySection}
                           isEditMode={isEditMode && !previewMode}
                           onSectionChange={s => {
                             const newSections = [...sections];
@@ -1514,58 +1675,408 @@ export default function HomePageClient() {
                             setSections(newSections);
                             setIsDirty(true);
                           }}
-                          speakText={() => {}}
                         />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'twoColumnText':
-                  renderedSection = (
-                    <section className="py-16 bg-white">
-                      <div className="container px-4 md:px-6">
-                        <TwoColumnTextSection
-                          section={section as any}
+                      );
+                      break;
+                    }
+                    case 'custom-code': {
+                      const customCodeSection = section as any;
+                      renderedSection = isEditMode && !previewMode ? (
+                        <div className="relative group">
+                          <CustomCodeSectionEditor
+                            code={customCodeSection.code || ''}
+                            onChange={newCode => {
+                              const newSections = [...sections];
+                              if (section.type === 'custom-code') {
+                                newSections[idx] = { ...section, code: newCode };
+                              } else {
+                                newSections[idx] = section;
+                              }
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <CustomCodeSection code={customCodeSection.code || ''} />
+                      );
+                      break;
+                    }
+                    case 'text-with-video-left': {
+                      const textWithVideoLeftSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TextWithVideoLeftSection
+                            section={textWithVideoLeftSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'text-with-video-right': {
+                      const textWithVideoRightSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TextWithVideoRightSection
+                            section={textWithVideoRightSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'product-package-left': {
+                      const productPackageLeftSection = section as any;
+                      renderedSection = (
+                        <ProductPackageLeftSection
+                          section={productPackageLeftSection}
                           isEditMode={isEditMode && !previewMode}
-                          onSectionChange={s => {
+                          onSectionChangeAction={s => {
                             const newSections = [...sections];
                             newSections[idx] = s as Section;
                             setSections(newSections);
                             setIsDirty(true);
                           }}
-                          speakText={() => {}}
                         />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'heading':
-                  renderedSection = (
-                    <section className="py-16 bg-white">
-                      <div className="container px-4 md:px-6">
+                      );
+                      break;
+                    }
+                    case 'product-package-right': {
+                      const productPackageRightSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <ProductPackageRightSection
+                            section={productPackageRightSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChangeAction={(s: Section) => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'heading':
+                      const headingSection = section as any;
+                      renderedSection = (
                         <HeadingSection
-                          section={section as any}
+                          section={headingSection}
                           isEditMode={isEditMode && !previewMode}
                           onSectionChange={s => {
                             const newSections = [...sections];
                             newSections[idx] = s as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                          speakText={() => {}}
+                          idx={idx}
+                          renderSectionControls={() => null}
+                        />
+                      );
+                      break;
+                    case 'editable-title': {
+                      const editableTitleSection = section as any;
+                      renderedSection = (
+                        <EditableTitleSection
+                          section={editableTitleSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onChange={update => {
+                            const newSections = [...sections];
+                            newSections[idx] = { ...sections[idx], ...update };
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                        />
+                      );
+                      break;
+                    }
+                    default:
+                      renderedSection = null;
+                  }
+                  return renderedSection;
+                })()}
+              </div>
+            ) : (
+              <div className="container mx-auto px-4 md:px-6 relative group">
+                {/* Section controls (move, remove, visibility) */}
+                {isAdmin && isEditMode && !previewMode && (
+                  <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                    <Button size="sm" variant="outline" onClick={() => handleMoveSection(idx, 'up')} disabled={idx === 0}>
+                      <span className="sr-only">Move Up</span>
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => handleMoveSection(idx, 'down')} disabled={idx === sections.length - 1}>
+                      <span className="sr-only">Move Down</span>
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => handleRemoveSection(idx)}>
+                      <span className="sr-only">Remove</span>
+                      <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+                    </Button>
+                    <Button size="sm" variant={('visible' in section ? section.visible !== false : true) ? "outline" : "destructive"} onClick={() => handleToggleSectionVisibility(idx, !('visible' in section ? section.visible !== false : true))}>
+                      <span className="sr-only">Toggle Visibility</span>
+                      {('visible' in section ? section.visible !== false : true) ? (
+                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                      ) : (
+                        <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a21.77 21.77 0 0 1 5.06-7.06M1 1l22 22"/></svg>
+                      )}
+                    </Button>
+                  </div>
+                )}
+                {/* Render section by type */}
+                {(() => {
+                  let renderedSection = null;
+                  switch (section.type as any) {
+                    case 'slider': {
+                      const sliderSection = section as import('@/app/custom_pages/types/sections').SliderSectionType;
+                      renderedSection = (
+                        <div className="relative group w-full">
+                          <SliderSection
+                            section={sliderSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                            idx={idx}
+                            renderSectionControls={() => null}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'hero-responsive': {
+                      const heroResponsiveSection = section as import('@/app/custom_pages/types/sections').HeroSectionResponsiveType;
+                      renderedSection = (
+                        <div className="relative group">
+                          <HeroSectionResponsive
+                            section={heroResponsiveSection}
+                            isEditMode={isEditMode && !previewMode}
+                            idx={idx}
+                            onSectionChangeAction={(s: Section) => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakTextAction={() => {}}
+                            renderSectionControlsAction={() => null}
+                            onExitEditMode={() => setEditMode(false)}
+                            isDirty={isDirty}
+                          />
+                          {isEditMode && (
+                            <div className="absolute top-2 right-2 z-10">
+                              {/* Section controls if needed */}
+                            </div>
+                          )}
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'text': {
+                      const textSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TextSection
+                            section={textSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                            onMediaSelect={() => setMediaDialogIdx(idx)}
+                            onDuplicate={(duplicatedSection) => {
+                              const newSections = [...sections];
+                              newSections.splice(idx + 1, 0, duplicatedSection);
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'content': {
+                      const contentSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TextSection
+                            section={{
+                              ...contentSection,
+                              type: 'text',
+                            }}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                            onDuplicate={(duplicatedSection) => {
+                              const newSections = [...sections];
+                              newSections.splice(idx + 1, 0, duplicatedSection);
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'feature': {
+                      const featureSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <FeatureSection
+                            section={featureSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'feature-card-grid': {
+                      const featureCardGridSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <FeatureCardGridSection
+                            section={featureCardGridSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'media-story-cards': {
+                      const mediaStoryCardSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <MediaStoryCardSection
+                            section={mediaStoryCardSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            onMediaSelect={(cardId) => {
+                              setMediaDialogIdx(idx);
+                              (window as any).__mediaDialogCardId = cardId;
+                              (window as any).__mediaDialogIsThumbnail = false;
+                            }}
+                            onThumbnailSelect={(cardId) => {
+                              setMediaDialogIdx(idx);
+                              (window as any).__mediaDialogCardId = cardId;
+                              (window as any).__mediaDialogIsThumbnail = true;
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'info-card': {
+                      const infoCardSection = section as any;
+                      renderedSection = (
+                        <InfoCardSection
+                          section={infoCardSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onSectionChange={(update: Partial<any>) => {
+                            const newSections = [...sections];
+                            newSections[idx] = { ...sections[idx], ...update } as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                          speakText={() => {}}
+                        />
+                      );
+                      break;
+                    }
+                    case 'divider': {
+                      const dividerSection = section as any;
+                      renderedSection = (
+                        <DividerSection
+                          section={dividerSection}
+                          isEditMode={isEditMode}
+                          onSectionChange={s => {
+                            const newSections = [...sections];
+                            newSections[idx] = s as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                          onDuplicate={(duplicatedSection) => {
+                            const newSections = [...sections];
+                            newSections.splice(idx + 1, 0, duplicatedSection);
                             setSections(newSections);
                             setIsDirty(true);
                           }}
                           idx={idx}
                           renderSectionControls={() => null}
-                          speakText={() => {}}
                         />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'quote':
-                  renderedSection = (
-                    <section className="py-16 bg-white">
-                      <div className="container px-4 md:px-6">
+                      );
+                      break;
+                    }
+                    case 'heading': {
+                      const headingSection = section as any;
+                      renderedSection = (
+                        <HeadingSection
+                          section={headingSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onSectionChange={s => {
+                            const newSections = [...sections];
+                            newSections[idx] = s as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                          speakText={() => {}}
+                          idx={idx}
+                          renderSectionControls={() => null}
+                        />
+                      );
+                      break;
+                    }
+                    case 'quote': {
+                      const quoteSection = section as any;
+                      renderedSection = (
                         <QuoteSection
-                          section={section as any}
+                          section={quoteSection}
                           isEditMode={isEditMode && !previewMode}
                           onSectionChange={s => {
                             const newSections = [...sections];
@@ -1575,16 +2086,283 @@ export default function HomePageClient() {
                           }}
                           speakText={() => {}}
                         />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'gallery':
-                  renderedSection = (
-                    <section className="py-16 bg-white">
-                      <div className="container px-4 md:px-6">
-                        <GallerySection
-                          section={section as any}
+                      );
+                      break;
+                    }
+                    case 'cta': {
+                      const ctaSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <CTASection
+                            section={ctaSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'gallery': {
+                      const gallerySection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <GallerySection
+                            section={gallerySection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'media-text-left':
+                    case 'media-text-right': {
+                      const mediaTextSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <MediaTextSection
+                            section={mediaTextSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                            onMediaSelect={() => setMediaDialogIdx(idx)}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'mediaTextColumns': {
+                      const mediaTextColumnsSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <MediaTextColumnsSection
+                            section={mediaTextColumnsSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'twoColumnText': {
+                      const twoColumnTextSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TwoColumnTextSection
+                            section={twoColumnTextSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={(s: Section) => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                            speakText={() => {}}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'media-placeholder': {
+                      const mediaPlaceholderSection = section as any;
+                      renderedSection = (
+                        <MediaPlaceholderSection
+                          section={mediaPlaceholderSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onSectionChange={s => {
+                            const newSections = [...sections];
+                            newSections[idx] = s as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                          onMoveUp={() => handleMoveSection(idx, 'up')}
+                          onMoveDown={() => handleMoveSection(idx, 'down')}
+                          onDelete={() => handleRemoveSection(idx)}
+                          onMediaSelect={(cardId) => {
+                            const card = (section as any).cards.find((c: any) => c.id === cardId);
+                            if (card) {
+                              setMediaDialogIdx(idx);
+                              (window as any).__mediaDialogCardId = cardId;
+                              (window as any).__mediaDialogIsThumbnail = false;
+                            }
+                          }}
+                          onDuplicate={(duplicatedSection) => {
+                            const newSections = [...sections];
+                            newSections.splice(idx + 1, 0, duplicatedSection);
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                        />
+                      );
+                      break;
+                    }
+                    case 'footer': {
+                      const footerSection = section as any;
+                      renderedSection = (
+                        <FooterSection
+                          section={footerSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onSectionChange={s => {
+                            const newSections = [...sections];
+                            newSections[idx] = s as unknown as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                          speakText={() => {}}
+                        />
+                      );
+                      break;
+                    }
+                    case 'contact-form': {
+                      const contactFormSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <ContactFormSection section={contactFormSection} />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'fluxedita_advanced_form': {
+                      renderedSection = <FluxeditaAdvancedFormSection />;
+                      break;
+                    }
+                    case 'privacy': {
+                      const privacySection = section as any;
+                      renderedSection = (
+                        <PrivacySection
+                          section={privacySection}
+                          isEditMode={isEditMode && !previewMode}
+                          onSectionChange={s => {
+                            const newSections = [...sections];
+                            newSections[idx] = s as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                        />
+                      );
+                      break;
+                    }
+                    case 'custom-code': {
+                      const customCodeSection = section as any;
+                      renderedSection = isEditMode && !previewMode ? (
+                        <div className="relative group">
+                          <CustomCodeSectionEditor
+                            code={customCodeSection.code || ''}
+                            onChange={newCode => {
+                              const newSections = [...sections];
+                              if (section.type === 'custom-code') {
+                                newSections[idx] = { ...section, code: newCode };
+                              } else {
+                                newSections[idx] = section;
+                              }
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <CustomCodeSection code={customCodeSection.code || ''} />
+                      );
+                      break;
+                    }
+                    case 'text-with-video-left': {
+                      const textWithVideoLeftSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TextWithVideoLeftSection
+                            section={textWithVideoLeftSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'text-with-video-right': {
+                      const textWithVideoRightSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <TextWithVideoRightSection
+                            section={textWithVideoRightSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChange={s => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'product-package-left': {
+                      const productPackageLeftSection = section as any;
+                      renderedSection = (
+                        <ProductPackageLeftSection
+                          section={productPackageLeftSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onSectionChangeAction={s => {
+                            const newSections = [...sections];
+                            newSections[idx] = s as Section;
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                        />
+                      );
+                      break;
+                    }
+                    case 'product-package-right': {
+                      const productPackageRightSection = section as any;
+                      renderedSection = (
+                        <div className="relative group">
+                          <ProductPackageRightSection
+                            section={productPackageRightSection}
+                            isEditMode={isEditMode && !previewMode}
+                            onSectionChangeAction={(s: Section) => {
+                              const newSections = [...sections];
+                              newSections[idx] = s as Section;
+                              setSections(newSections);
+                              setIsDirty(true);
+                            }}
+                          />
+                        </div>
+                      );
+                      break;
+                    }
+                    case 'heading':
+                      const headingSection = section as any;
+                      renderedSection = (
+                        <HeadingSection
+                          section={headingSection}
                           isEditMode={isEditMode && !previewMode}
                           onSectionChange={s => {
                             const newSections = [...sections];
@@ -1593,75 +2371,49 @@ export default function HomePageClient() {
                             setIsDirty(true);
                           }}
                           speakText={() => {}}
+                          idx={idx}
+                          renderSectionControls={() => null}
                         />
-                      </div>
-                    </section>
-                  );
-                  break;
-                case 'text-with-video-left':
-                  renderedSection = (
-                    <TextWithVideoLeftSection
-                      section={section as any}
-                      isEditMode={isEditMode && !previewMode}
-                      onSectionChange={s => {
-                        const newSections = [...sections];
-                        newSections[idx] = s as Section;
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                    />
-                  );
-                  break;
-                case 'text-with-video-right':
-                  renderedSection = (
-                    <TextWithVideoRightSection
-                      section={section as any}
-                      isEditMode={isEditMode && !previewMode}
-                      onSectionChange={s => {
-                        const newSections = [...sections];
-                        newSections[idx] = s as Section;
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                    />
-                  );
-                  break;
-                case 'product-package-left':
-                  renderedSection = (
-                    <ProductPackageLeftSection
-                      section={section as any}
-                      isEditMode={isEditMode && !previewMode}
-                      onSectionChangeAction={s => {
-                        const newSections = [...sections];
-                        newSections[idx] = s as Section;
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                    />
-                  );
-                  break;
-                case 'product-package-right':
-                  renderedSection = (
-                    <ProductPackageRightSection
-                      section={section as any}
-                      isEditMode={isEditMode && !previewMode}
-                      onSectionChangeAction={s => {
-                        const newSections = [...sections];
-                        newSections[idx] = s as Section;
-                        setSections(newSections);
-                        setIsDirty(true);
-                      }}
-                    />
-                  );
-                  break;
-                default:
-                  renderedSection = null;
-              }
-              return renderedSection;
-            })()
-          }
+                      );
+                      break;
+                    case 'editable-title': {
+                      const editableTitleSection = section as any;
+                      renderedSection = (
+                        <EditableTitleSection
+                          section={editableTitleSection}
+                          isEditMode={isEditMode && !previewMode}
+                          onChange={update => {
+                            const newSections = [...sections];
+                            newSections[idx] = { ...sections[idx], ...update };
+                            setSections(newSections);
+                            setIsDirty(true);
+                          }}
+                        />
+                      );
+                      break;
+                    }
+                    default:
+                      renderedSection = null;
+                  }
+                  return renderedSection;
+                })()}
+              </div>
+            )}
+          </section>
+        );
+      })}
+
+      {/* Show More Button */}
+      {(pageProperties.showMoreEnabled ?? true) && visibleCount < sections.length && (
+        <div className="flex justify-center my-8">
+          <button
+            onClick={() => setVisibleCount(c => Math.min(c + 2, sections.length))}
+            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400"
+          >
+            Show More
+          </button>
         </div>
-      ))}
+      )}
 
       {/* MediaLibrary dialog for Media/Text sections */}
       {mediaDialogIdx !== null && (
@@ -1671,6 +2423,7 @@ export default function HomePageClient() {
           onCloseAction={() => {
             setMediaDialogIdx(null);
             (window as any).__mediaDialogCardId = null;
+            (window as any).__mediaDialogIsThumbnail = null;
           }}
           onSelectAction={(url, type) => {
             setSections(prev => {
@@ -1678,7 +2431,23 @@ export default function HomePageClient() {
               const section = newSections[mediaDialogIdx];
               
               if (section) {
-                if (section.type === 'media-placeholder') {
+                if (section.type === 'media-story-cards') {
+                  const cardId = (window as any).__mediaDialogCardId;
+                  const isThumbnail = (window as any).__mediaDialogIsThumbnail;
+                  if (cardId && section.cards) {
+                    const updatedCards = section.cards.map((card: any) =>
+                      card.id === cardId
+                        ? isThumbnail
+                          ? { ...card, thumbnailUrl: url }
+                          : { ...card, mediaUrl: url, mediaType: (type === 'image' || type === 'video') ? type : 'image' }
+                        : card
+                    );
+                    newSections[mediaDialogIdx] = {
+                      ...section,
+                      cards: updatedCards,
+                    };
+                  }
+                } else if (section.type === 'media-placeholder') {
                   // Handle media-placeholder section
                   const cardId = (window as any).__mediaDialogCardId;
                   if (cardId && section.cards) {
@@ -1692,17 +2461,6 @@ export default function HomePageClient() {
                       cards: updatedCards,
                     };
                   }
-                } else if (
-                  section.type === 'media-text-left' ||
-                  section.type === 'media-text-right' ||
-                  section.type === 'text'
-                ) {
-                  // Handle other section types
-                  newSections[mediaDialogIdx] = {
-                    ...section,
-                    mediaUrl: url,
-                    mediaType: (type === 'image' || type === 'video') ? type : 'image',
-                  };
                 }
               }
               return newSections;
@@ -1710,6 +2468,7 @@ export default function HomePageClient() {
             setIsDirty(true);
             setMediaDialogIdx(null);
             (window as any).__mediaDialogCardId = null;
+            (window as any).__mediaDialogIsThumbnail = null;
           }}
         />
       )}

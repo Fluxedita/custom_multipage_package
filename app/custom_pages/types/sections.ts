@@ -1,3 +1,5 @@
+export type LinkTarget = '_self' | '_blank';
+
 export type SectionType = 
   | 'hero'
   | 'hero-responsive'
@@ -25,8 +27,8 @@ export type SectionType =
   | 'text-with-video-right'
   | 'product-package-left'
   | 'product-package-right'
-  | 'footer'
-  | 'fluxedita_advanced_form';
+  | 'media-story-cards'
+  | 'footer';
 
 export type HorizontalAlignment = 'left' | 'center' | 'right';
 
@@ -211,12 +213,9 @@ export interface GallerySection extends BaseSection {
   type: 'gallery';
   title: string;
   description: string;
-  images: { 
-    url: string; 
-    alt: string; 
-    title?: string;
-    description?: string;
-  }[];
+  images: { url: string; alt: string }[];
+  url?: string;
+  alt?: string;
   backgroundImage?: string;
   layout: 'grid' | 'masonry' | 'carousel';
   enableTitleSpeech: boolean;
@@ -224,14 +223,6 @@ export interface GallerySection extends BaseSection {
   enableImageSpeech: boolean;
   titleTextStyle?: import('@/app/custom_pages/components/sections/TextStyleEditor').TextStyle;
   descriptionTextStyle?: import('@/app/custom_pages/components/sections/TextStyleEditor').TextStyle;
-  horizontalPadding?: number;
-  verticalPadding?: number;
-  columns?: number;
-  gap?: string;
-  imageAspectRatio?: string;
-  showCaptions?: boolean;
-  showThumbnails?: boolean;
-  lightbox?: boolean;
 }
 
 export interface MediaTextColumnsSection extends BaseSection {
@@ -510,7 +501,6 @@ export interface EditableTitleSectionType extends BaseSection {
   slug: string;
   titleTextStyle?: import('../components/sections/TextStyleEditor').TextStyle;
   alignment?: 'left' | 'center' | 'right';
-  enableSpeech: boolean;
 }
 
 export interface TextWithVideoLeftSection extends BaseSection {
@@ -582,11 +572,21 @@ export interface FooterSection extends BaseSection {
   padding?: string;
 }
 
-// Extend BaseSection but make enableSpeech optional
-export interface FluxeditaAdvancedFormSection extends Omit<BaseSection, 'enableSpeech'> {
-  type: 'fluxedita_advanced_form';
-  enableSpeech?: boolean;
-  // Add any additional properties specific to the Fluxedita Advanced Form section
+export interface MediaStoryCardSectionType extends BaseSection {
+  type: 'media-story-cards';
+  title?: string;
+  titleAlignment?: 'left' | 'center' | 'right';
+  cards: Array<{
+    id: string;
+    mediaUrl: string;
+    mediaType: 'image' | 'video';
+    title: string;
+    tagline: string;
+    thumbnailUrl: string;
+    linkUrl?: string;
+    linkTarget?: LinkTarget;
+  }>;
+  columns?: number;
 }
 
 export type Section = 
@@ -608,6 +608,7 @@ export type Section =
   | InfoCardSection
   | AdvancedSliderSection
   | ContactFormSectionType
+  | { id: string; type: 'fluxedita_advanced_form'; visible: boolean }
   | PrivacySectionType
   | CustomCodeSectionType
   | MediaPlaceholderSection
@@ -617,4 +618,4 @@ export type Section =
   | ProductPackageLeftSection
   | ProductPackageRightSection
   | FooterSection
-  | FluxeditaAdvancedFormSection;
+  | MediaStoryCardSectionType;

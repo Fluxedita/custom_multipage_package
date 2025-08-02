@@ -23,4 +23,5 @@ export { TextWithVideoLeftSection } from './TextWithVideoLeftSection';
 export { TextWithVideoRightSection } from './TextWithVideoRightSection'; 
 export { ProductPackageLeftSection } from './ProductPackageLeftSection'; 
 export { ProductPackageRightSection } from './ProductPackageRightSection'; 
-export { default as EditableTitleSection } from '@/components/sections/EditableTitleSection'; 
+export { default as EditableTitleSection } from '@/components/sections/EditableTitleSection';
+export { MediaStoryCardSection } from './MediaStoryCardSection';

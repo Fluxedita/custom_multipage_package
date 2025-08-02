@@ -1,5 +1,4 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
 import "@/app/globals.css"
 import { ClientLayout } from "../client-layout"
 
@@ -15,7 +14,9 @@ export default function CustomPageLayout({
 }) {
   return (
     <ClientLayout>
-      {children}
+      <main className="min-h-[calc(100vh-64px)] pt-16 md:pt-20">
+        {children}
+      </main>
     </ClientLayout>
   )
 }

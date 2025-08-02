@@ -135,12 +135,12 @@ export function PageControls({
     { type: 'quote', label: 'Quote', icon: Quote },
     { type: 'cta', label: 'Call-to-Action', icon: Phone },
     { type: 'media-placeholder', label: 'Media Placeholder', icon: Image },
-    { type: 'footer', label: 'Footer Section', icon: LayoutGrid },
     { type: 'fluxedita_advanced_form', label: 'Fluxedita Adv Form', icon: Mail },
     { type: 'privacy', label: 'Privacy Section', icon: Shield },
     { type: 'custom-code', label: 'Custom Code', icon: Code },
     { type: 'product-package-left', label: 'Product Package (Left)', icon: LayoutGrid },
     { type: 'product-package-right', label: 'Product Package (Right)', icon: LayoutGrid },
+    { type: 'media-story-cards', label: 'Media Story Cards', icon: Image },
   ];
 
   // Sidebar customization state
@@ -151,7 +151,7 @@ export function PageControls({
   
   // Default sections that are enabled by default (most commonly used)
   const defaultEnabledSections = [
-    'hero', 'hero-responsive', 'text', 'feature', 'cta', 'gallery', 'slider', 'divider', 'info-card'
+    'hero', 'hero-responsive', 'text', 'feature', 'cta', 'gallery', 'slider', 'divider', 'info-card', 'media-story-cards'
   ];
 
   const [enabledSections, setEnabledSections] = useState<string[]>(() => {
@@ -405,9 +405,7 @@ export function PageControls({
               <Button 
                 className="w-full" 
                 onClick={async () => {
-                  // Save sidebar settings first
                   await handleSaveSidebarSettings();
-                  // Then trigger the parent's save handler
                   onSave();
                 }}
                 disabled={isSaving || !isDirty}

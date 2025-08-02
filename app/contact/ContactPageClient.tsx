@@ -132,7 +132,7 @@ function ContactPageContent() {
             title: 'Get in Touch',
             description: 'We are always excited to connect! Whether you have questions, want to collaborate, or just want to say hi, feel free to reach out.',
             features: [
-              { icon: 'star', title: 'Email', description: 'Reach us at hello@example.com' },
+              { icon: 'star', title: 'Email', description: 'Reach us at jamescroanin@gmail.com' },
               { icon: 'heart', title: 'Phone', description: '+1 (555) 123-4567' },
               { icon: 'sparkles', title: 'Location', description: 'London, United Kingdom' }
             ],
@@ -155,7 +155,7 @@ function ContactPageContent() {
             title: 'Get in Touch',
             description: 'We are always excited to connect! Whether you have questions, want to collaborate, or just want to say hi, feel free to reach out.',
             features: [
-              { icon: 'star', title: 'Email', description: 'Reach us at hello@example.com' },
+              { icon: 'star', title: 'Email', description: 'Reach us at jamescroanin@gmail.com' },
               { icon: 'heart', title: 'Phone', description: '+1 (555) 123-4567' },
               { icon: 'sparkles', title: 'Location', description: 'London, United Kingdom' }
             ],

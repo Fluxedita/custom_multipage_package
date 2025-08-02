@@ -45,7 +45,7 @@ export default function SettingsPage() {
 
                 <div className="space-y-2">
                   <Label htmlFor="contact-email">Contact Email</Label>
-                  <Input id="contact-email" type="email" defaultValue="contact@example.com" />
+                  <Input id="contact-email" type="email" defaultValue="jamescroanin@gmail.com" />
                 </div>
 
                 <div className="flex items-center space-x-2">

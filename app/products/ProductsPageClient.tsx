@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react"
+import { Plus, X, Edit2, Check, X as XIcon, Copy, Trash2 } from "lucide-react";
 import { useAuth } from "@/components/providers/AuthProvider"
 import { useEditMode } from "@/hooks/EditModeContext"
 import { HeroSectionType } from "@/types/sections"
@@ -36,7 +37,8 @@ import {
   TextWithVideoLeftSection,
   TextWithVideoRightSection,
   ProductPackageLeftSection,
-  ProductPackageRightSection
+  ProductPackageRightSection,
+  MediaStoryCardSection
 } from '@/app/custom_pages/components/sections';
 import ContactFormSection from '@/app/custom_contact_section/ContactFormSection';
 import FluxeditaAdvancedFormSection from '@/app/custom_contact_section/FluxeditaAdvancedFormSection';
@@ -81,6 +83,46 @@ const INITIAL_SECTIONS: Section[] = [
     visible: true,
   },
   {
+    id: 'products-story-cards',
+    type: 'media-story-cards',
+    title: 'Featured Products',
+    cards: [
+      {
+        id: 'card-1',
+        mediaUrl: '/images/placeholder-product-1.jpg',
+        mediaType: 'image',
+        title: 'Premium Product Line',
+        tagline: 'Experience the difference',
+        thumbnailUrl: '/images/placeholder-thumb-1.jpg',
+        linkUrl: '/products/premium',
+        linkTarget: '_self'
+      },
+      {
+        id: 'card-2',
+        mediaUrl: '/images/placeholder-product-2.jpg',
+        mediaType: 'image',
+        title: 'Eco-Friendly Solutions',
+        tagline: 'Better for the planet',
+        thumbnailUrl: '/images/placeholder-thumb-2.jpg',
+        linkUrl: '/products/eco-friendly',
+        linkTarget: '_self'
+      },
+      {
+        id: 'card-3',
+        mediaUrl: '/images/placeholder-product-3.jpg',
+        mediaType: 'image',
+        title: 'Professional Grade',
+        tagline: 'For the experts',
+        thumbnailUrl: '/images/placeholder-thumb-3.jpg',
+        linkUrl: '/products/professional',
+        linkTarget: '_self'
+      }
+    ],
+    columns: 3,
+    visible: true,
+    enableSpeech: false
+  },
+  {
     id: 'products-features',
     type: 'feature',
     title: 'Why Choose Our Products',
@@ -103,12 +145,52 @@ const INITIAL_SECTIONS: Section[] = [
       }
     ],
     layout: 'grid',
-    enableSpeech: false,
     enableTitleSpeech: false,
     enableDescriptionSpeech: false,
     enableFeatureSpeech: false,
-    visible: true,
+    enableSpeech: true,
+    visible: true
   },
+  {
+    id: 'product-stories',
+    type: 'media-story-cards',
+    enableSpeech: false,
+    visible: true,
+    title: 'Product Stories',
+    cards: [
+      {
+        id: 'story-1',
+        mediaUrl: '/images/placeholder-product-1.jpg',
+        mediaType: 'image',
+        title: 'Premium Collection',
+        tagline: 'Discover our luxury product line',
+        thumbnailUrl: '/images/placeholder-thumb-1.jpg',
+        linkUrl: '/collections/premium',
+        linkTarget: '_self'
+      },
+      {
+        id: 'story-2',
+        mediaUrl: '/images/placeholder-product-2.jpg',
+        mediaType: 'image',
+        title: 'Summer Specials',
+        tagline: 'Limited time offers for the season',
+        thumbnailUrl: '/images/placeholder-thumb-2.jpg',
+        linkUrl: '/specials/summer',
+        linkTarget: '_self'
+      },
+      {
+        id: 'story-3',
+        mediaUrl: '/images/placeholder-product-3.jpg',
+        mediaType: 'image',
+        title: 'New Arrivals',
+        tagline: 'Check out our latest products',
+        thumbnailUrl: '/images/placeholder-thumb-3.jpg',
+        linkUrl: '/new-arrivals',
+        linkTarget: '_self'
+      }
+    ],
+    columns: 3
+  }
 ];
 
 export default function ProductsPageClient() {
@@ -121,7 +203,96 @@ export default function ProductsPageClient() {
   const [showControls, setShowControls] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [mediaDialogIdx, setMediaDialogIdx] = useState<number | null>(null)
+  const [mediaDialogIdx, setMediaDialogIdx] = useState<number | null>(null);
+  const [mediaDialogCardId, setMediaDialogCardId] = useState<string | null>(null);
+  const [mediaDialogType, setMediaDialogType] = useState<'media' | 'thumbnail'>('media');
+
+  // Handle media selection from the media dialog
+  const handleMediaSelect = (mediaUrl: string) => {
+    if (mediaDialogIdx === null || !mediaDialogCardId) return;
+
+    setSections(prevSections => {
+      const newSections = [...prevSections];
+      const section = newSections[mediaDialogIdx];
+      
+      if (section.type === 'media-story-cards') {
+        const updatedCards = section.cards.map(card => {
+          if (card.id === mediaDialogCardId) {
+            if (mediaDialogType === 'thumbnail') {
+              return { ...card, thumbnailUrl: mediaUrl };
+            } else {
+              return { 
+                ...card, 
+                mediaUrl, 
+                mediaType: (mediaUrl.match(/\.(mp4|webm|ogg)$/i) ? 'video' : 'image') as 'image' | 'video' 
+              };
+            }
+          }
+          return card;
+        });
+        
+        newSections[mediaDialogIdx] = { ...section, cards: updatedCards };
+      }
+      
+      return newSections;
+    });
+    
+    // Reset dialog state
+    setMediaDialogIdx(null);
+    setMediaDialogCardId(null);
+    setIsDirty(true);
+  };
+
+  // Render the media selection dialog
+  const renderMediaDialog = () => {
+    if (mediaDialogIdx === null || !mediaDialogCardId) return null;
+    
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div className="bg-white rounded-lg p-6 w-full max-w-4xl max-h-[90vh] flex flex-col">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold">
+              {mediaDialogType === 'media' ? 'Select Media' : 'Select Thumbnail'}
+            </h2>
+            <button 
+              onClick={() => {
+                setMediaDialogIdx(null);
+                setMediaDialogCardId(null);
+              }}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div className="flex-1 overflow-hidden">
+            <MediaLibrary
+              onSelectAction={handleMediaSelect}
+              type="all"
+              isDialog={true}
+              onCloseAction={() => {
+                setMediaDialogIdx(null);
+                setMediaDialogCardId(null);
+              }}
+            />
+          </div>
+          <div className="mt-4 flex justify-end">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setMediaDialogIdx(null);
+                setMediaDialogCardId(null);
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   // Page properties state
   const [pageProperties, setPageProperties] = useState({
@@ -443,6 +614,48 @@ export default function ProductsPageClient() {
           visible: true,
         };
         break;
+      case 'media-story-cards':
+        newSection = {
+          id,
+          type: 'media-story-cards',
+          title: 'Media Story Cards',
+          cards: [
+            {
+              id: `card-${Date.now()}-1`,
+              title: 'Story 1',
+              tagline: 'A short description of story 1',
+              mediaUrl: '',
+              mediaType: 'image',
+              thumbnailUrl: '',
+              linkUrl: '#',
+              linkTarget: '_self'
+            },
+            {
+              id: `card-${Date.now()}-2`,
+              title: 'Story 2',
+              tagline: 'A short description of story 2',
+              mediaUrl: '',
+              mediaType: 'image',
+              thumbnailUrl: '',
+              linkUrl: '#',
+              linkTarget: '_self'
+            },
+            {
+              id: `card-${Date.now()}-3`,
+              title: 'Story 3',
+              tagline: 'A short description of story 3',
+              mediaUrl: '',
+              mediaType: 'image',
+              thumbnailUrl: '',
+              linkUrl: '#',
+              linkTarget: '_self'
+            }
+          ],
+          columns: 3,
+          visible: true,
+          enableSpeech: false
+        };
+        break;
       case 'gallery':
         newSection = {
           id,
@@ -450,6 +663,8 @@ export default function ProductsPageClient() {
           title: '',
           description: '',
           images: [],
+          url: '',
+          alt: '',
           layout: 'grid',
           enableTitleSpeech: false,
           enableDescriptionSpeech: false,
@@ -499,7 +714,7 @@ export default function ProductsPageClient() {
           formMethod: 'POST',
           fields: [
             { id: 'name', name: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Your name' },
-            { id: 'email', name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'you@example.com' },
+            { id: 'email', name: 'email', label: 'Email', type: 'email', required: true, placeholder: 'jamescroanin@gmail.com' },
             { id: 'message', name: 'message', label: 'Message', type: 'textarea', required: true, placeholder: 'Your message' },
           ],
         };
@@ -748,6 +963,9 @@ export default function ProductsPageClient() {
     )
   }
 
+  // Render the media dialog if needed
+  // The renderMediaDialog function is defined above with the MediaLibrary component
+
   return (
     <main className="min-h-screen" style={getPageStyles()}>
       {/* Floating admin button for opening PageControls */}
@@ -841,6 +1059,7 @@ export default function ProductsPageClient() {
           }}
         />
       )}
+      {renderMediaDialog()}
       {/* Render all sections dynamically */}
       {sections.map((section, idx) => {
         // Check if this is a hero section and should be full width
@@ -1014,6 +1233,34 @@ export default function ProductsPageClient() {
                   );
                   break;
                 }
+                case 'media-story-cards': {
+                  const mediaStoryCardSection = section as import('@/app/custom_pages/types/sections').MediaStoryCardSectionType;
+                  renderedSection = (
+                    <div className="relative group w-full">
+                      <MediaStoryCardSection
+                        section={mediaStoryCardSection}
+                        isEditMode={isEditMode && !previewMode}
+                        onSectionChange={s => {
+                          const newSections = [...sections];
+                          newSections[idx] = s as Section;
+                          setSections(newSections);
+                          setIsDirty(true);
+                        }}
+                        onMediaSelect={(cardId) => {
+                          setMediaDialogIdx(idx);
+                          setMediaDialogCardId(cardId);
+                          setMediaDialogType('media');
+                        }}
+                        onThumbnailSelect={(cardId) => {
+                          setMediaDialogIdx(idx);
+                          setMediaDialogCardId(cardId);
+                          setMediaDialogType('thumbnail');
+                        }}
+                      />
+                    </div>
+                  );
+                  break;
+                }
                 case 'divider': {
                   const dividerSection = section as import('@/app/custom_pages/types/sections').DividerSection;
                   renderedSection = (
@@ -1027,8 +1274,60 @@ export default function ProductsPageClient() {
                           setSections(newSections);
                           setIsDirty(true);
                         }}
+                        onDuplicate={(duplicatedSection) => {
+                          const newSections = [...sections];
+                          newSections.splice(idx + 1, 0, {
+                            ...duplicatedSection,
+                            id: `divider-${Date.now()}`,
+                          } as Section);
+                          setSections(newSections);
+                          setIsDirty(true);
+                        }}
                         idx={idx}
-                        renderSectionControls={() => null}
+                        renderSectionControls={(sectionIdx) => {
+                          const handleDuplicate = (e: React.MouseEvent) => {
+                            e.stopPropagation();
+                            const newSections = [...sections];
+                            const sectionToDuplicate = sections[sectionIdx];
+                            newSections.splice(sectionIdx + 1, 0, {
+                              ...sectionToDuplicate,
+                              id: `divider-${Date.now()}`,
+                            } as Section);
+                            setSections(newSections);
+                            setIsDirty(true);
+                          };
+                          
+                          const handleDelete = (e: React.MouseEvent) => {
+                            e.stopPropagation();
+                            const newSections = [...sections];
+                            newSections.splice(sectionIdx, 1);
+                            setSections(newSections);
+                            setIsDirty(true);
+                          };
+                          
+                          return (
+                            <div className="absolute top-2 right-2 flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 rounded-full bg-white/80 hover:bg-white"
+                                onClick={handleDuplicate}
+                                title="Duplicate section"
+                              >
+                                <Copy className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="h-8 w-8 rounded-full bg-white/80 hover:bg-white"
+                                onClick={handleDelete}
+                                title="Delete section"
+                              >
+                                <Trash2 className="h-4 w-4 text-red-500" />
+                              </Button>
+                            </div>
+                          );
+                        }}
                       />
                     </div>
                   );
@@ -1072,6 +1371,32 @@ export default function ProductsPageClient() {
                   );
                   break;
                 }
+                case 'media-story-cards': {
+                  const mediaStoryCardSection = section as import('@/app/custom_pages/types/sections').MediaStoryCardSectionType;
+                  renderedSection = (
+                    <div className="relative group w-full">
+                      <MediaStoryCardSection
+                        section={mediaStoryCardSection}
+                        isEditMode={isEditMode && !previewMode}
+                        onSectionChange={s => {
+                          const newSections = [...sections];
+                          newSections[idx] = s as Section;
+                          setSections(newSections);
+                          setIsDirty(true);
+                        }}
+                        onMediaSelect={(cardId) => {
+                          // Handle media selection if needed
+                          console.log('Media selected for card:', cardId);
+                        }}
+                        onThumbnailSelect={(cardId) => {
+                          // Handle thumbnail selection if needed
+                          console.log('Thumbnail selected for card:', cardId);
+                        }}
+                      />
+                    </div>
+                  );
+                  break;
+                }
                 case 'info-card': {
                   const infoCardSection = section as import('@/app/custom_pages/types/sections').InfoCardSection;
                   renderedSection = (
@@ -1079,10 +1404,20 @@ export default function ProductsPageClient() {
                       <InfoCardSection
                         section={infoCardSection}
                         isEditMode={isEditMode && !previewMode}
-                        onSectionChange={s => {
-                          const newSections = [...sections];
-                          newSections[idx] = s as Section;
-                          setSections(newSections);
+                        onSectionChange={updatedSection => {
+                          setSections(prevSections => {
+                            const newSections = [...prevSections];
+                            // Merge the updated section with the existing section to preserve all properties
+                            newSections[idx] = {
+                              ...infoCardSection,  // Keep all existing properties
+                              ...updatedSection,   // Apply updates
+                              // Ensure the type is preserved
+                              type: 'info-card' as const,
+                              // Ensure cards array is properly handled
+                              cards: updatedSection.cards || infoCardSection.cards
+                            };
+                            return newSections;
+                          });
                           setIsDirty(true);
                         }}
                       />
@@ -1195,6 +1530,34 @@ export default function ProductsPageClient() {
                   );
                   break;
                 }
+                case 'media-story-cards': {
+                  const mediaStoryCardSection = section as any;
+                  renderedSection = (
+                    <div className="relative group w-full">
+                      <MediaStoryCardSection
+                        section={mediaStoryCardSection}
+                        isEditMode={isEditMode && !previewMode}
+                        onSectionChange={s => {
+                          const newSections = [...sections];
+                          newSections[idx] = s as Section;
+                          setSections(newSections);
+                          setIsDirty(true);
+                        }}
+                        onMediaSelect={(cardId) => {
+                          setMediaDialogIdx(idx);
+                          setMediaDialogCardId(cardId);
+                          setMediaDialogType('media');
+                        }}
+                        onThumbnailSelect={(cardId) => {
+                          setMediaDialogIdx(idx);
+                          setMediaDialogCardId(cardId);
+                          setMediaDialogType('thumbnail');
+                        }}
+                      />
+                    </div>
+                  );
+                  break;
+                }
                 case 'twoColumnText': {
                   const twoColumnTextSection = section as any;
                   renderedSection = (
@@ -1202,9 +1565,9 @@ export default function ProductsPageClient() {
                       <TwoColumnTextSection
                         section={twoColumnTextSection}
                         isEditMode={isEditMode && !previewMode}
-                        onSectionChange={s => {
+                        onSectionChange={(s: Section) => {
                           const newSections = [...sections];
-                          newSections[idx] = s as Section;
+                          newSections[idx] = s;
                           setSections(newSections);
                           setIsDirty(true);
                         }}
@@ -1316,6 +1679,39 @@ export default function ProductsPageClient() {
                           newSections[idx] = s as Section;
                           setSections(newSections);
                           setIsDirty(true);
+                        }}
+                      />
+                    </div>
+                  );
+                  break;
+                }
+                case 'media-story-cards': {
+                  const mediaStoryCardSection = section as any;
+                  renderedSection = (
+                    <div className="relative group w-full">
+                      <MediaStoryCardSection
+                        section={mediaStoryCardSection}
+                        isEditMode={isEditMode && !previewMode}
+                        onSectionChange={s => {
+                          const newSections = [...sections];
+                          newSections[idx] = s as Section;
+                          setSections(newSections);
+                          setIsDirty(true);
+                        }}
+                        onMediaSelect={(cardId) => {
+                          const card = (section as any).cards.find((c: any) => c.id === cardId);
+                          if (card) {
+                            setMediaDialogIdx(idx);
+                            (window as any).__mediaDialogCardId = cardId;
+                          }
+                        }}
+                        onThumbnailSelect={(cardId) => {
+                          const card = (section as any).cards.find((c: any) => c.id === cardId);
+                          if (card) {
+                            setMediaDialogIdx(idx);
+                            (window as any).__mediaDialogCardId = cardId;
+                            (window as any).__mediaDialogType = 'thumbnail';
+                          }
                         }}
                       />
                     </div>

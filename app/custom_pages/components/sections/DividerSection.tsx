@@ -172,7 +172,8 @@ export function DividerSection({ section, isEditMode, onSectionChange, idx, rend
           paddingRight: `${section.horizontalPadding ?? 0}rem`,
           paddingTop: `${section.verticalPadding ?? 0}rem`,
           paddingBottom: `${section.verticalPadding ?? 0}rem`,
-          margin: section.margin,
+          // Apply margin directly to the container div
+          margin: section.margin || '2rem 0',
         }}
       >
         <hr
